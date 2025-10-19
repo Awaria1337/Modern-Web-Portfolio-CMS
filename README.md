@@ -193,55 +193,6 @@ docker-compose up -d
 5. Meta tagları optimize edin
 6. **Kaydet ve Yayınla**
 
-## 📂 Proje Yapısı
-
-\\\
-Portfolio/
-├── Controllers/              # MVC Controllers
-│   ├── AdminController.cs              # Auth & Dashboard
-│   ├── AdminBlogController.cs          # Blog CRUD
-│   ├── AdminProjeController.cs         # Project CRUD
-│   ├── AdminSeoController.cs           # SEO Management
-│   └── ...                             # Other admin controllers
-├── Models/                   # Data Models
-│   ├── Blog.cs, BlogSeo.cs
-│   ├── Proje.cs, ProjectSeo.cs
-│   ├── SiteContext.cs                  # DbContext
-│   └── ViewModels/
-├── Views/                    # Razor Views
-│   ├── Admin/
-│   │   ├── Login.cshtml
-│   │   └── Index.cshtml
-│   ├── AdminBlog/, AdminProje/, AdminSeo/
-│   └── Shared/
-│       └── _AdminLayout.cshtml
-├── Services/                 # Business Logic
-│   ├── SeoService.cs
-│   └── SeoAnalysisService.cs
-├── wwwroot/                  # Static Files
-│   ├── admin-assets/         # Admin theme
-│   ├── assets/               # Frontend assets
-│   └── uploads/              # User uploads
-├── Migrations/               # EF Migrations
-├── appsettings.json
-├── Program.cs
-└── Portfolio.csproj
-\\\
-
-## 📸 Ekran Görüntüleri
-
-### Admin Dashboard
-![Dashboard](https://via.placeholder.com/800x500/007bff/ffffff?text=Admin+Dashboard)
-
-### Blog Yönetimi
-![Blog Management](https://via.placeholder.com/800x500/28a745/ffffff?text=Blog+Management)
-
-### SEO Dashboard
-![SEO Dashboard](https://via.placeholder.com/800x500/ffc107/333333?text=SEO+Dashboard)
-
-### Proje Listesi
-![Projects](https://via.placeholder.com/800x500/17a2b8/ffffff?text=Projects+List)
-
 ## 🗄️ Veritabanı
 
 ### Ana Tablolar
