@@ -8,8 +8,6 @@
 
 > Modern, SEO-optimized portfolio website with a powerful admin panel built on ASP.NET Core MVC
 
-![Portfolio Dashboard](https://via.placeholder.com/1200x400/007bff/ffffff?text=Portfolio+Admin+Dashboard)
-
 ## 📋 İçindekiler
 
 - [Özellikler](#-özellikler)
