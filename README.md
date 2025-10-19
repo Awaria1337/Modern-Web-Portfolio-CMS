@@ -1,6 +1,6 @@
 ﻿# 🎨 Portfolio - Modern Web Portfolio & CMS
 
-[![.NET](https://img.shields.io/badge/.NET-6.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
+[![.NET](https://img.shields.io/badge/.NET-9.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-MVC-512BD4)](https://docs.microsoft.com/aspnet/core/)
 [![Entity Framework](https://img.shields.io/badge/Entity%20Framework-Core%206.0-512BD4)](https://docs.microsoft.com/ef/core/)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?logo=bootstrap)](https://getbootstrap.com/)
