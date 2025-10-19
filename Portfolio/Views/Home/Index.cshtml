@@ -1,0 +1,537 @@
+@{
+    ViewData["Title"] = "Portfolio";
+    Layout = null;
+    var profile = ViewBag.Profile as Portfolio.Models.Profile;
+    var sosyalMedya = ViewBag.SosyalMedya as List<Portfolio.Models.SosyalMedya>;
+    var hakkimda = ViewBag.Hakkimda as Portfolio.Models.Hakkimda;
+    var hizmetler = ViewBag.Hizmetler as List<Portfolio.Models.Hizmet>;
+    var testimonials = ViewBag.Testimonials as List<Portfolio.Models.Testimonial>;
+    var clients = ViewBag.Clients as List<Portfolio.Models.Client>;
+    var egitimler = ViewBag.Egitimler as List<Portfolio.Models.Egitim>;
+    var deneyimler = ViewBag.Deneyimler as List<Portfolio.Models.Deneyim>;
+    var yetenekler = ViewBag.Yetenekler as List<Portfolio.Models.Yetenek>;
+    var projeler = ViewBag.Projeler as List<Portfolio.Models.Proje>;
+    var bloglar = ViewBag.Bloglar as List<Portfolio.Models.Blog>;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@(profile?.Ad ?? "Portfolio") @(profile?.Soyad ?? "") - @(profile?.Unvan ?? "Personal Portfolio")</title>
+  
+  <link rel="shortcut icon" href="~/assets/images/logo.ico" type="image/x-icon">
+  <link rel="stylesheet" href="~/assets/css/style.css">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <main>
+    <!--  SIDEBAR  -->
+    <aside class="sidebar" data-sidebar>
+      <div class="sidebar-info">
+        <figure class="avatar-box">
+          <img src="@(profile?.ProfilFoto ?? "~/assets/images/my-avatar.png")" alt="@profile?.Ad @profile?.Soyad" width="80">
+        </figure>
+
+        <div class="info-content">
+          <h1 class="name" title="@profile?.Ad @profile?.Soyad">@profile?.Ad @profile?.Soyad</h1>
+          <p class="title">@profile?.Unvan</p>
+        </div>
+
+        <button class="info_more-btn" data-sidebar-btn>
+          <span>Show Contacts</span>
+          <ion-icon name="chevron-down"></ion-icon>
+        </button>
+      </div>
+
+      <div class="sidebar-info_more">
+        <div class="separator"></div>
+
+        <ul class="contacts-list">
+          @if (!string.IsNullOrEmpty(profile?.Email))
+          {
+            <li class="contact-item">
+              <div class="icon-box">
+                <ion-icon name="mail-outline"></ion-icon>
+              </div>
+              <div class="contact-info">
+                <p class="contact-title">Email</p>
+                <a href="mailto:@profile.Email" class="contact-link">@profile.Email</a>
+              </div>
+            </li>
+          }
+
+          @* @if (!string.IsNullOrEmpty(profile?.Telefon))
+          {
+            <li class="contact-item">
+              <div class="icon-box">
+                <ion-icon name="phone-portrait-outline"></ion-icon>
+              </div>
+              <div class="contact-info">
+                <p class="contact-title">Phone</p>
+                <a href="tel:@profile.Telefon" class="contact-link">@profile.Telefon</a>
+              </div>
+            </li>
+          } *@
+
+          @if (!string.IsNullOrEmpty(profile?.DogumTarihi))
+          {
+            <li class="contact-item">
+              <div class="icon-box">
+                <ion-icon name="calendar-outline"></ion-icon>
+              </div>
+              <div class="contact-info">
+                <p class="contact-title">Doğum Tarihim</p>
+                <time>@profile.DogumTarihi</time>
+              </div>
+            </li>
+          }
+
+          @if (!string.IsNullOrEmpty(profile?.Lokasyon))
+          {
+            <li class="contact-item">
+              <div class="icon-box">
+                <ion-icon name="location-outline"></ion-icon>
+              </div>
+              <div class="contact-info">
+                <p class="contact-title">Lokasyonum</p>
+                <address>@profile.Lokasyon</address>
+              </div>
+            </li>
+          }
+        </ul>
+
+        <div class="separator"></div>
+
+        <ul class="social-list">
+          <li class="social-item">
+            <a href="https://www.linkedin.com/in/mert-zileli/" class="social-link" target="_blank">
+              <ion-icon name="logo-linkedin"></ion-icon>
+            </a>
+          </li>
+          <li class="social-item">
+            <a href="http://github.com/Awaria1337/" class="social-link" target="_blank">
+              <ion-icon name="logo-github"></ion-icon>
+            </a>
+          </li>
+          <li class="social-item">
+            <a href="https://www.instagram.com/mertzileli0/" class="social-link" target="_blank">
+              <ion-icon name="logo-instagram"></ion-icon>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <!--  MAIN CONTENT  -->
+    <div class="main-content">
+      <!--  NAVBAR  -->
+      <nav class="navbar">
+        <ul class="navbar-list">
+          <li class="navbar-item">
+            <button class="navbar-link active" data-nav-link>Hakkımda</button>
+          </li>
+          <li class="navbar-item">
+            <button class="navbar-link" data-nav-link>Özgeçmiş</button>
+          </li>
+          <li class="navbar-item">
+            <button class="navbar-link" data-nav-link>Projeler</button>
+          </li>
+          <li class="navbar-item">
+            <button class="navbar-link" data-nav-link>Blog</button>
+          </li>
+          <li class="navbar-item">
+            <button class="navbar-link" data-nav-link>İletişim</button>
+          </li>
+        </ul>
+      </nav>
+
+      <!--  ABOUT  -->
+      <article class="about active" data-page="hakkımda">
+        <header>
+          <h2 class="h2 article-title">@(hakkimda?.Baslik ?? "About me")</h2>
+        </header>
+
+        <section class="about-text">
+          @if (!string.IsNullOrEmpty(hakkimda?.Aciklama1))
+          {
+            <p>@hakkimda.Aciklama1</p>
+          }
+          @if (!string.IsNullOrEmpty(hakkimda?.Aciklama2))
+          {
+            <p>@hakkimda.Aciklama2</p>
+          }
+        </section>
+
+        <!--  SERVICES  -->
+        @if (hizmetler != null && hizmetler.Any())
+        {
+          <section class="service">
+            <h3 class="h3 service-title">Neler Yapıyorum</h3>
+            <ul class="service-list">
+              @foreach (var hizmet in hizmetler)
+              {
+                <li class="service-item">
+                  <div class="service-icon-box">
+                    <img src="@hizmet.Icon" alt="@hizmet.Baslik icon" width="40">
+                  </div>
+                  <div class="service-content-box">
+                    <h4 class="h4 service-item-title">@hizmet.Baslik</h4>
+                    <p class="service-item-text">@hizmet.Aciklama</p>
+                  </div>
+                </li>
+              }
+            </ul>
+          </section>
+        }
+
+        <section class="testimonials">
+          <h3 class="h3 testimonials-title">Yorumlar</h3>
+          <ul class="testimonials-list has-scrollbar">
+            <li class="testimonials-item">
+              <div class="content-card" data-testimonials-item>
+                <figure class="testimonials-avatar-box">
+                  <img src="~/assets/images/avatar-1.png" alt="Ahmet Yılmaz" width="60" data-testimonials-avatar>
+                </figure>
+                <h4 class="h4 testimonials-item-title" data-testimonials-title>Ahmet Yılmaz</h4>
+                <div class="testimonials-text" data-testimonials-text>
+                  <p>Mert ile çalıştığımız projede mükemmel bir deneyim yaşadık. Teknik bilgisi ve problem çözme yeteneği gerçekten etkileyici. Zamanında teslim etti ve beklentilerimizi aştı.</p>
+                </div>
+              </div>
+            </li>
+            
+            <li class="testimonials-item">
+              <div class="content-card" data-testimonials-item>
+                <figure class="testimonials-avatar-box">
+                  <img src="~/assets/images/avatar-2.png" alt="Elif Kaya" width="60" data-testimonials-avatar>
+                </figure>
+                <h4 class="h4 testimonials-item-title" data-testimonials-title>Elif Kaya</h4>
+                <div class="testimonials-text" data-testimonials-text>
+                  <p>Web sitemizi yenilerken Mert'in yaratıcı çözümleri ve detaylara verdiği önem bizi çok memnun etti. Profesyonel yaklaşımı ve iletişimi mükemmeldi.</p>
+                </div>
+              </div>
+            </li>
+            
+            <li class="testimonials-item">
+              <div class="content-card" data-testimonials-item>
+                <figure class="testimonials-avatar-box">
+                  <img src="~/assets/images/avatar-4.png" alt="Can Demir" width="60" data-testimonials-avatar>
+                </figure>
+                <h4 class="h4 testimonials-item-title" data-testimonials-title>Can Demir</h4>
+                <div class="testimonials-text" data-testimonials-text>
+                  <p>Mobil uygulama projemizde Mert'in uzmanlığından faydalandık. Modern teknolojileri kullanarak kullanıcı dostu bir çözüm geliştirdi. Kesinlikle tavsiye ederim.</p>
+                </div>
+              </div>
+            </li>
+            
+            <li class="testimonials-item">
+              <div class="content-card" data-testimonials-item>
+                <figure class="testimonials-avatar-box">
+                  <img src="~/assets/images/avatar-3.png" alt="Zeynep Özkan" width="60" data-testimonials-avatar>
+                </figure>
+                <h4 class="h4 testimonials-item-title" data-testimonials-title>Zeynep Özkan</h4>
+                <div class="testimonials-text" data-testimonials-text>
+                  <p>E-ticaret sitemizi geliştirirken Mert'in deneyimi ve önerileri çok değerliydi. Performans optimizasyonu ve güvenlik konularında harika çalışma yaptı.</p>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </section>
+
+          <!--  TESTIMONIALS MODAL  -->
+          <div class="modal-container" data-modal-container>
+            <div class="overlay" data-overlay></div>
+            <section class="testimonials-modal">
+              <button class="modal-close-btn" data-modal-close-btn>
+                <ion-icon name="close-outline"></ion-icon>
+              </button>
+              <div class="modal-img-wrapper">
+                <figure class="modal-avatar-box">
+                  <img src="~/assets/images/avatar-1.png" alt="testimonial" width="80" data-modal-img>
+                </figure>
+                <img src="~/assets/images/icon-quote.svg" alt="quote icon">
+              </div>
+              <div class="modal-content">
+                <h4 class="h3 modal-title" data-modal-title></h4>
+                <time datetime="" data-modal-time></time>
+                <div data-modal-text></div>
+              </div>
+            </section>
+          </div>
+
+      </article>
+
+      <!--  RESUME  -->
+      <article class="resume" data-page="özgeçmiş">
+        <header>
+          <h2 class="h2 article-title">Özgeçmiş</h2>
+        </header>
+
+        <!--  EDUCATION  -->
+        @if (egitimler != null && egitimler.Any())
+        {
+          <section class="timeline">
+            <div class="title-wrapper">
+              <div class="icon-box">
+                <ion-icon name="book-outline"></ion-icon>
+              </div>
+              <h3 class="h3">Eğitim</h3>
+            </div>
+            <ol class="timeline-list">
+              @foreach (var egitim in egitimler)
+              {
+                <li class="timeline-item">
+                  <h4 class="h4 timeline-item-title">@egitim.Okul</h4>
+                  <span>@egitim.BaslangicTarihi — @egitim.BitisTarihi</span>
+                  @if (!string.IsNullOrEmpty(egitim.Aciklama))
+                  {
+                    <p class="timeline-text">@egitim.Aciklama</p>
+                  }
+                </li>
+              }
+            </ol>
+          </section>
+        }
+
+        <!--  EXPERIENCE  -->
+        @if (deneyimler != null && deneyimler.Any())
+        {
+          <section class="timeline">
+            <div class="title-wrapper">
+              <div class="icon-box">
+                <ion-icon name="book-outline"></ion-icon>
+              </div>
+              <h3 class="h3">Deneyim</h3>
+            </div>
+            <ol class="timeline-list">
+              @foreach (var deneyim in deneyimler)
+              {
+                <li class="timeline-item">
+                  <h4 class="h4 timeline-item-title">@deneyim.Pozisyon</h4>
+                  <span>@deneyim.Sirket — @deneyim.BaslangicTarihi — @deneyim.BitisTarihi</span>
+                  @if (!string.IsNullOrEmpty(deneyim.Aciklama))
+                  {
+                    <p class="timeline-text">@deneyim.Aciklama</p>
+                  }
+                </li>
+              }
+            </ol>
+          </section>
+        }
+
+        <!--  SKILLS  -->
+        @if (yetenekler != null && yetenekler.Any())
+        {
+          <section class="skill">
+            <h3 class="h3 skills-title">Becerilerim</h3>
+            <ul class="skills-list content-card">
+              @foreach (var yetenek in yetenekler)
+              {
+                <li class="skills-item">
+                  <div class="title-wrapper">
+                    <h5 class="h5">@yetenek.Ad</h5>
+                    <data value="@yetenek.Yuzde">@yetenek.Yuzde%</data>
+                  </div>
+                  <div class="skill-progress-bg">
+                    <div class="skill-progress-fill" style="width: @yetenek.Yuzde%;"></div>
+                  </div>
+                </li>
+              }
+            </ul>
+          </section>
+        }
+      </article>
+
+      <!--  PORTFOLIO  -->
+      <article class="portfolio" data-page="projeler">
+        <header>
+          <h2 class="h2 article-title">Projeler</h2>
+        </header>
+
+        @if (projeler != null && projeler.Any())
+        {
+          <section class="projects">
+            @{
+              var kategoriler = projeler.Select(p => p.Kategori).Distinct().ToList();
+            }
+            
+            <ul class="filter-list">
+              <li class="filter-item">
+                <button class="active" data-filter-btn>Tümü</button>
+              </li>
+              @foreach (var kategori in kategoriler)
+              {
+                <li class="filter-item">
+                  <button data-filter-btn>@(kategori == "Web development" ? "Web Geliştirme" : 
+                                           kategori == "Applications" ? "Uygulamalar" : 
+                                           kategori == "Web design" ? "Web Tasarım" : 
+                                           kategori == "Mobile app" ? "Mobil Uygulama" : 
+                                           kategori)</button>
+                </li>
+              }
+            </ul>
+
+            <div class="filter-select-box">
+              <button class="filter-select" data-select>
+                <div class="select-value" data-selecct-value>Kategori seçin</div>
+                <div class="select-icon">
+                  <ion-icon name="chevron-down"></ion-icon>
+                </div>
+              </button>
+              <ul class="select-list">
+                <li class="select-item">
+                  <button data-select-item>Tümü</button>
+                </li>
+                @foreach (var kategori in kategoriler)
+                {
+                  <li class="select-item">
+                    <button data-select-item>@(kategori == "Web development" ? "Web Geliştirme" : 
+                                               kategori == "Applications" ? "Uygulamalar" : 
+                                               kategori == "Web design" ? "Web Tasarım" : 
+                                               kategori == "Mobile app" ? "Mobil Uygulama" : 
+                                               kategori)</button>
+                  </li>
+                }
+              </ul>
+            </div>
+
+            <ul class="project-list">
+              @foreach (var proje in projeler)
+              {
+                <li class="project-item active" data-filter-item data-category="@proje.Kategori?.ToLower()">
+                  <a href="@proje.Url" target="_blank">
+                    <figure class="project-img">
+                      <div class="project-item-icon-box">
+                        <ion-icon name="eye-outline"></ion-icon>
+                      </div>
+                      <img src="@proje.Gorsel" alt="@proje.Baslik" loading="lazy">
+                    </figure>
+                    <div class="project-content">
+                      <h3 class="project-title">@proje.Baslik</h3>
+                      <p class="project-category">@(proje.Kategori == "Web development" ? "Web Geliştirme" : 
+                                                   proje.Kategori == "Applications" ? "Uygulamalar" : 
+                                                   proje.Kategori == "Web design" ? "Web Tasarım" : 
+                                                   proje.Kategori == "Mobile app" ? "Mobil Uygulama" : 
+                                                   proje.Kategori)</p>
+                    </div>
+                  </a>
+                </li>
+              }
+            </ul>
+          </section>
+        }
+      </article>
+
+      <!--  BLOG  -->
+      <article class="blog" data-page="blog">
+        <header>
+          <h2 class="h2 article-title">Blog</h2>
+        </header>
+
+        @if (bloglar != null && bloglar.Any())
+        {
+          <section class="blog-posts">
+            <ul class="blog-posts-list">
+              @foreach (var blog in bloglar)
+              {
+                <li class="blog-post-item">
+                  <a href="@Url.Action("BlogDetail", "Home", new { id = blog.Id })">
+                    <figure class="blog-banner-box">
+                      <img src="@blog.Gorsel" alt="@blog.Baslik" loading="lazy">
+                    </figure>
+                    <div class="blog-content">
+                      <div class="blog-meta">
+                        <p class="blog-category">@blog.Kategori</p>
+                        <span class="dot"></span>
+                        <time datetime="@blog.Tarih?.ToString("yyyy-MM-dd")">@blog.Tarih?.ToString("MMM dd, yyyy")</time>
+                      </div>
+                      <h3 class="h3 blog-item-title">@blog.Baslik</h3>
+                      <p class="blog-text">@blog.Ozet</p>
+                    </div>
+                  </a>
+                </li>
+              }
+            </ul>
+          </section>
+        }
+      </article>
+
+      <!--  CONTACT  -->
+      <article class="contact" data-page="iletişim">
+        <header>
+          <h2 class="h2 article-title">İletişim</h2>
+        </header>
+
+        <section class="mapbox" data-mapbox>
+          <figure>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d199666.5651251294!2d-121.58334177520186!3d38.56165006739519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x809ac672b28397f9%3A0x921f6aaa74197fdb!2sSacramento%2C%20CA%2C%20USA!5e0!3m2!1sen!2sbd!4v1647608789441!5m2!1sen!2sbd"
+              width="400" height="300" loading="lazy"></iframe>
+          </figure>
+        </section>
+
+        <section class="contact-form">
+          <h3 class="h3 form-title">İletişim Formu</h3>
+          <form id="contactForm" class="form" data-form>
+            <div class="input-wrapper">
+              <input type="text" name="name" id="name" class="form-input" placeholder="İsminiz" required data-form-input>
+              <input type="email" name="email" id="email" class="form-input" placeholder="Email adresiniz" required data-form-input>
+            </div>
+            <input type="text" name="subject" id="subject" class="form-input" placeholder="Konu" required data-form-input>
+            <textarea name="message" id="message" class="form-input mt-2" placeholder="Mesajınız" required data-form-input></textarea>
+            <button class="form-btn" type="submit" data-form-btn>
+              <ion-icon name="paper-plane"></ion-icon>
+              <span>Send Message</span>
+            </button>
+          </form>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <script src="~/assets/js/script.js"></script>
+  
+  <!-- Contact Form AJAX -->
+  <script>
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        subject: document.getElementById('subject').value,
+        message: document.getElementById('message').value
+      };
+
+      fetch('@Url.Action("SaveMessage", "Home")', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams(formData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('✓ ' + data.message);
+          document.getElementById('contactForm').reset();
+        } else {
+          alert('✗ ' + data.message);
+        }
+      })
+      .catch(error => {
+        alert('Bir hata oluştu: ' + error);
+      });
+    });
+  </script>
+
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

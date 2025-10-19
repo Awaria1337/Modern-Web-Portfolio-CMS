@@ -1,0 +1,124 @@
+@@include('./partials/html.html')
+
+<head>
+    @@include("./partials/title-meta.html", {"title": "Tooltips"})
+
+    @@include('./partials/head-css.html')
+</head>
+
+<body>
+    <!-- Begin page -->
+    <div class="wrapper">
+
+        @@include('./partials/menu.html', {"title":"Tooltips"})
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Custom tooltips</h4>
+                                    <p class="text-muted mb-0">You can customize the appearance of tooltips using CSS variables. We set a custom class with data-bs-custom-class="custom-tooltip" to scope our custom appearance and use it to override a local CSS variable.</p>   
+                                </div>
+                                <div class="card-body">
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="danger-tooltip" data-bs-title="This top tooltip is themed via CSS variables.">
+                                        Custom tooltip
+                                    </button>
+                                </div> <!-- end card-body -->
+                            </div> <!-- end card-->
+
+                        </div> <!-- end col -->
+
+                        <div class="col-xl-6">
+                           
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Directions</h4>
+                                    <p class="text-muted fs-14 mb-0">Hover over the buttons below to see the four tooltips directions: top, right, bottom, and left. Directions are mirrored when using Bootstrap in RTL.</p>   
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top" data-bs-custom-class="primary-tooltip" >
+                                            Tooltip on top
+                                          </button>
+                                          <button type="button" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Tooltip on right" data-bs-custom-class="danger-tooltip">
+                                            Tooltip on right
+                                          </button>
+                                          <button type="button" class="btn btn-info" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Tooltip on bottom"  data-bs-custom-class="info-tooltip" >
+                                            Tooltip on bottom
+                                          </button>
+                                          <button type="button" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Tooltip on left" data-bs-custom-class="success-tooltip">
+                                            Tooltip on left
+                                          </button>
+                                    </div>
+                                </div> <!-- end card-body -->
+                            </div> <!-- end card-->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Color Tooltips</h4>
+                                    <p class="text-muted fs-14 mb-0">We set a custom class with ex. <code>data-bs-custom-class="primary-tooltip"</code> to scope our background-color primary appearance and use
+                                        it to override a local CSS
+                                        variable.
+                                    </p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="primary-tooltip" data-bs-title="This top tooltip is themed via CSS variables.">
+                                            Primary tooltip
+                                        </button>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="danger-tooltip" data-bs-title="This top tooltip is themed via CSS variables.">
+                                            Danger tooltip
+                                        </button>
+                                        <button type="button" class="btn btn-info" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="info-tooltip" data-bs-title="This top tooltip is themed via CSS variables.">
+                                            Info tooltip
+                                        </button>
+                                        <button type="button" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="success-tooltip" data-bs-title="This top tooltip is themed via CSS variables.">
+                                            Success tooltip
+                                        </button>
+                                        <button type="button" class="btn btn-pink" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="pink-tooltip" data-bs-title="This top tooltip is themed via CSS variables.">
+                                            Pink tooltip
+                                        </button>
+                                        <button type="button" class="btn btn-purple" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="purple-tooltip" data-bs-title="This top tooltip is themed via CSS variables.">
+                                            Purple tooltip
+                                        </button>
+                                    </div>
+                                </div> <!-- end card-body -->
+                            </div> <!-- end card-->
+                        </div> <!-- end col -->
+                    </div>
+                    <!-- end row -->
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+            @@include('./partials/footer.html')
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+    </div>
+    <!-- END wrapper -->
+
+    @@include('./partials/right-sidebar.html')
+
+    @@include('./partials/footer-scripts.html')
+
+    <!-- App js -->
+    <script src="assets/js/app.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,70 @@
+@model Portfolio.Models.Blog
+@{
+    Layout = null;
+    ViewData["Title"] = Model?.Baslik ?? "Blog";
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@ViewData["Title"] - Blog</title>
+  
+  <!-- SEO Meta Tags -->
+  <seo-meta content-type="@ViewBag.ContentType" content-id="@ViewBag.ContentId" 
+            seo-title="@ViewBag.SeoTitle" seo-description="@ViewBag.SeoDescription" 
+            seo-keywords="@ViewBag.SeoKeywords" seo-image="@ViewBag.SeoImage" 
+            seo-url="@ViewBag.SeoUrl" />
+  
+  <link rel="shortcut icon" href="~/assets/images/logo.ico" type="image/x-icon">
+  <link rel="stylesheet" href="~/assets/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- SEO Analytics -->
+  <seo-analytics />
+</head>
+
+<body>
+  <main>
+    <div class="main-content" style="padding: 24px">
+      <article class="blog active" data-page="blog">
+        <header>
+          <h2 class="h2 article-title">@Model.Baslik</h2>
+        </header>
+        <section class="blog-posts">
+          <div class="blog-posts-list">
+            <div class="blog-post-item" style="max-width: 920px; margin: 0 auto;">
+              <figure class="blog-banner-box">
+                <img src="@Model.Gorsel" alt="@Model.Baslik" loading="lazy" style="width: 100%; border-radius: 16px;">
+              </figure>
+              <div class="blog-content" style="padding-top: 16px;">
+                <div class="blog-meta">
+                  <p class="blog-category">@Model.Kategori</p>
+                  <span class="dot"></span>
+                  <time datetime="@Model.Tarih?.ToString("yyyy-MM-dd")">@Model.Tarih?.ToString("MMM dd, yyyy")</time>
+                </div>
+                <div class="blog-text">
+                  @Html.Raw(Model.Icerik)
+                </div>
+              </div>
+              <div style="margin-top: 24px;">
+                <a href="@Url.Action("Index", "Home")" class="btn" style="display:inline-flex; align-items:center; gap:8px">
+                  <ion-icon name="arrow-back-outline"></ion-icon>
+                  <span>Ana sayfaya dön</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

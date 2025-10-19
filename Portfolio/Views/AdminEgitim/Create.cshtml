@@ -1,0 +1,65 @@
+@model Portfolio.Models.Egitim
+@{
+    ViewData["Title"] = "Yeni Eğitim";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="admin-content">
+    <div class="content-header">
+        <h2><i class="fas fa-plus"></i> Yeni Eğitim Ekle</h2>
+        <a href="@Url.Action("Index")" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Geri
+        </a>
+    </div>
+
+    <form asp-action="Create" method="post" class="admin-form">
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+        
+        <div class="form-group">
+            <label asp-for="Bolum">Bölüm</label>
+            <input asp-for="Bolum" class="form-control" />
+            <span asp-validation-for="Bolum" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Okul">Okul</label>
+            <input asp-for="Okul" class="form-control" />
+            <span asp-validation-for="Okul" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="BaslangicTarihi">Başlangıç Tarihi</label>
+            <input asp-for="BaslangicTarihi" class="form-control" placeholder="Örn: 2018" />
+            <span asp-validation-for="BaslangicTarihi" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="BitisTarihi">Bitiş Tarihi</label>
+            <input asp-for="BitisTarihi" class="form-control" placeholder="Örn: 2022 veya Devam ediyor" />
+            <span asp-validation-for="BitisTarihi" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Aciklama">Açıklama</label>
+            <textarea asp-for="Aciklama" class="form-control" rows="4"></textarea>
+            <span asp-validation-for="Aciklama" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Sira">Sıra</label>
+            <input asp-for="Sira" type="number" class="form-control" />
+            <span asp-validation-for="Sira" class="text-danger"></span>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save"></i> Kaydet
+            </button>
+            <a href="@Url.Action("Index")" class="btn btn-secondary">İptal</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

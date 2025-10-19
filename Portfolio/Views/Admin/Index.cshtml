@@ -1,0 +1,390 @@
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Start Content-->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Portfolio</a></li>
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Dashboard</h4>
+        </div>
+    </div>
+</div>
+
+<!-- Welcome Card -->
+<div class="row">
+    <div class="col-12">
+        <div class="card widget-inline">
+            <div class="card-body p-0">
+                <div class="alert alert-primary alert-dismissible bg-primary text-white border-0 fade show" role="alert">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <strong><i class="ri-hand-heart-line me-1"></i> Hoş Geldiniz, @ViewBag.AdminAdi!</strong> - Portfolio yönetim panelinize hoş geldiniz. Buradan tüm içeriklerinizi kolayca yönetebilirsiniz.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row">
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 me-3">
+                        <div class="avatar-sm">
+                            <span class="avatar-title bg-primary-subtle text-primary rounded">
+                                <i class="ri-briefcase-line fs-24"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="mb-1">@ViewBag.ToplamProje</h5>
+                        <p class="text-muted fw-medium mb-0">Toplam Proje</p>
+                    </div>
+                    <div class="flex-shrink-0 align-self-end ms-2">
+                        <a href="@Url.Action("Index", "AdminProje")" class="btn btn-sm btn-light">
+                            <i class="ri-arrow-right-line"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 me-3">
+                        <div class="avatar-sm">
+                            <span class="avatar-title bg-success-subtle text-success rounded">
+                                <i class="ri-bar-chart-line fs-24"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="mb-1">@ViewBag.ToplamYetenek</h5>
+                        <p class="text-muted fw-medium mb-0">Yetenekler</p>
+                    </div>
+                    <div class="flex-shrink-0 align-self-end ms-2">
+                        <a href="@Url.Action("Index", "AdminYetenek")" class="btn btn-sm btn-light">
+                            <i class="ri-arrow-right-line"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 me-3">
+                        <div class="avatar-sm">
+                            <span class="avatar-title bg-warning-subtle text-warning rounded">
+                                <i class="ri-mail-line fs-24"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="mb-1">@ViewBag.OkunmamisMesaj / @ViewBag.ToplamMesaj</h5>
+                        <p class="text-muted fw-medium mb-0">Okunmamış Mesaj</p>
+                    </div>
+                    <div class="flex-shrink-0 align-self-end ms-2">
+                        <a href="@Url.Action("Index", "AdminMesaj")" class="btn btn-sm btn-light">
+                            <i class="ri-arrow-right-line"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 me-3">
+                        <div class="avatar-sm">
+                            <span class="avatar-title bg-danger-subtle text-danger rounded">
+                                <i class="ri-chat-quote-line fs-24"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="mb-1">@ViewBag.ToplamTestimonial</h5>
+                        <p class="text-muted fw-medium mb-0">Müşteri Görüşleri</p>
+                    </div>
+                    <div class="flex-shrink-0 align-self-end ms-2">
+                        <a href="@Url.Action("Index", "AdminTestimonial")" class="btn btn-sm btn-light">
+                            <i class="ri-arrow-right-line"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Additional Stats Row -->
+<div class="row">
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 me-3">
+                        <div class="avatar-sm">
+                            <span class="avatar-title bg-info-subtle text-info rounded">
+                                <i class="ri-article-line fs-24"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="mb-1">@ViewBag.ToplamBlog</h5>
+                        <p class="text-muted fw-medium mb-0">Blog Yazıları</p>
+                    </div>
+                    <div class="flex-shrink-0 align-self-end ms-2">
+                        <a href="@Url.Action("Index", "AdminBlog")" class="btn btn-sm btn-light">
+                            <i class="ri-arrow-right-line"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 me-3">
+                        <div class="avatar-sm">
+                            <span class="avatar-title bg-purple-subtle text-purple rounded">
+                                <i class="ri-service-line fs-24"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="mb-1">@ViewBag.ToplamHizmet</h5>
+                        <p class="text-muted fw-medium mb-0">Hizmetler</p>
+                    </div>
+                    <div class="flex-shrink-0 align-self-end ms-2">
+                        <a href="@Url.Action("Index", "AdminHizmet")" class="btn btn-sm btn-light">
+                            <i class="ri-arrow-right-line"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 me-3">
+                        <div class="avatar-sm">
+                            <span class="avatar-title bg-pink-subtle text-pink rounded">
+                                <i class="ri-building-line fs-24"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="mb-1">@ViewBag.ToplamClient</h5>
+                        <p class="text-muted fw-medium mb-0">Client Logoları</p>
+                    </div>
+                    <div class="flex-shrink-0 align-self-end ms-2">
+                        <a href="@Url.Action("Index", "AdminClient")" class="btn btn-sm btn-light">
+                            <i class="ri-arrow-right-line"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 me-3">
+                        <div class="avatar-sm">
+                            <span class="avatar-title bg-secondary-subtle text-secondary rounded">
+                                <i class="ri-share-line fs-24"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h5 class="mb-1">@ViewBag.ToplamSosyalMedya</h5>
+                        <p class="text-muted fw-medium mb-0">Sosyal Medya</p>
+                    </div>
+                    <div class="flex-shrink-0 align-self-end ms-2">
+                        <a href="@Url.Action("Index", "AdminSosyalMedya")" class="btn btn-sm btn-light">
+                            <i class="ri-arrow-right-line"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3">
+                    <i class="ri-flashlight-line me-1"></i> Hızlı İşlemler
+                </h4>
+                <div class="row">
+                    <div class="col-xl-3 col-md-6 mb-2">
+                        <a href="@Url.Action("Create", "AdminProje")" class="btn btn-outline-primary w-100">
+                            <i class="ri-add-circle-line me-1"></i> Yeni Proje Ekle
+                        </a>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-2">
+                        <a href="@Url.Action("Edit", "AdminProfile")" class="btn btn-outline-success w-100">
+                            <i class="ri-user-settings-line me-1"></i> Profil Düzenle
+                        </a>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-2">
+                        <a href="@Url.Action("Create", "AdminHizmet")" class="btn btn-outline-info w-100">
+                            <i class="ri-service-line me-1"></i> Yeni Hizmet Ekle
+                        </a>
+                    </div>
+                    <div class="col-xl-3 col-md-6 mb-2">
+                        <a href="@Url.Action("Create", "AdminYetenek")" class="btn btn-outline-warning w-100">
+                            <i class="ri-code-line me-1"></i> Yeni Yetenek Ekle
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity & Site Info -->
+<div class="row">
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3">
+                    <i class="ri-information-line me-1"></i> Site Bilgileri
+                </h4>
+                <div class="table-responsive">
+                    <table class="table table-borderless table-sm mb-0">
+                        <tbody>
+                            <tr>
+                                <td class="text-muted">Toplam İçerik</td>
+                                <td class="text-end fw-semibold">@(ViewBag.ToplamProje + ViewBag.ToplamBlog + ViewBag.ToplamHizmet)</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Aktif Projeler</td>
+                                <td class="text-end fw-semibold">@ViewBag.ToplamProje</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Blog Yazıları</td>
+                                <td class="text-end fw-semibold">@ViewBag.ToplamBlog</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Yetenekler</td>
+                                <td class="text-end fw-semibold">@ViewBag.ToplamYetenek</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Hizmetler</td>
+                                <td class="text-end fw-semibold">@ViewBag.ToplamHizmet</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-6">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3">
+                    <i class="ri-notification-badge-line me-1"></i> Son Durumlar
+                </h4>
+                <div class="timeline-alt pb-0">
+                    <div class="timeline-item">
+                        <i class="ri-mail-line bg-info-subtle text-info timeline-icon"></i>
+                        <div class="timeline-item-info">
+                            <h5 class="mt-0 mb-1">Okunmamış Mesajlar</h5>
+                            <p class="text-muted mt-0 mb-0">@ViewBag.OkunmamisMesaj yeni mesajınız var</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <i class="ri-briefcase-line bg-primary-subtle text-primary timeline-icon"></i>
+                        <div class="timeline-item-info">
+                            <h5 class="mt-0 mb-1">Projeler</h5>
+                            <p class="text-muted mt-0 mb-0">@ViewBag.ToplamProje proje mevcut</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <i class="ri-chat-quote-line bg-success-subtle text-success timeline-icon"></i>
+                        <div class="timeline-item-info">
+                            <h5 class="mt-0 mb-1">Müşteri Görüşleri</h5>
+                            <p class="text-muted mt-0 mb-0">@ViewBag.ToplamTestimonial görüş paylaşıldı</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .timeline-alt {
+            position: relative;
+            padding: 0;
+            margin: 0;
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 50px;
+            padding-bottom: 20px;
+        }
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+        .timeline-item:before {
+            content: "";
+            position: absolute;
+            left: 15px;
+            top: 35px;
+            bottom: 0;
+            width: 2px;
+            background-color: #e3ebf6;
+        }
+        .timeline-item:last-child:before {
+            display: none;
+        }
+        .timeline-icon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+    </style>
+}

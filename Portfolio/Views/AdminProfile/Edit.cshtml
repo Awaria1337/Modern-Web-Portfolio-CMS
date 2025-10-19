@@ -1,0 +1,74 @@
+@model Portfolio.Models.Profile
+@{
+    ViewData["Title"] = "Profil Düzenle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <h1><i class="fas fa-edit"></i> @ViewData["Title"]</h1>
+    <a href="@Url.Action("Index")" class="btn btn-primary">
+        <i class="fas fa-arrow-left"></i> Geri Dön
+    </a>
+</div>
+
+<div class="content-card">
+    <form asp-action="Edit" method="post">
+        <input asp-for="Id" type="hidden" />
+        
+        <div class="form-group">
+            <label asp-for="Ad">Ad</label>
+            <input asp-for="Ad" class="form-control" placeholder="Adınız" />
+            <span asp-validation-for="Ad" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Soyad">Soyad</label>
+            <input asp-for="Soyad" class="form-control" placeholder="Soyadınız" />
+            <span asp-validation-for="Soyad" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Unvan">Ünvan</label>
+            <input asp-for="Unvan" class="form-control" placeholder="Örn: Web Developer" />
+            <span asp-validation-for="Unvan" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" class="form-control" type="email" placeholder="ornek@email.com" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Telefon">Telefon</label>
+            <input asp-for="Telefon" class="form-control" placeholder="+90 555 123 4567" />
+            <span asp-validation-for="Telefon" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DogumTarihi">Doğum Tarihi</label>
+            <input asp-for="DogumTarihi" class="form-control" placeholder="23 Haziran 1990" />
+            <span asp-validation-for="DogumTarihi" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Lokasyon">Lokasyon</label>
+            <input asp-for="Lokasyon" class="form-control" placeholder="İstanbul, Türkiye" />
+            <span asp-validation-for="Lokasyon" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ProfilFoto">Profil Fotoğrafı (URL)</label>
+            <input asp-for="ProfilFoto" class="form-control" placeholder="/assets/images/my-avatar.png" />
+            <span asp-validation-for="ProfilFoto" class="text-danger"></span>
+            <small class="text-muted">Fotoğraf yolunu girin (Örn: /assets/images/my-avatar.png)</small>
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-save"></i> Kaydet
+        </button>
+        <a href="@Url.Action("Index")" class="btn btn-secondary">
+            <i class="fas fa-times"></i> İptal
+        </a>
+    </form>
+</div>

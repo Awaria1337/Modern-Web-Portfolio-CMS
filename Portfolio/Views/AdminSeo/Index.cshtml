@@ -1,0 +1,295 @@
+@model Portfolio.Models.ViewModels.SeoIndexViewModel
+@{
+    ViewData["Title"] = "SEO Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Start Content-->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Admin")">Dashboard</a></li>
+                    <li class="breadcrumb-item active">SEO Dashboard</li>
+                </ol>
+            </div>
+            <h4 class="page-title">SEO Dashboard</h4>
+        </div>
+    </div>
+</div>
+
+<!-- SEO Stats Cards -->
+<div class="row">
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-6">
+                        <h5 class="text-muted fw-normal mt-0 text-truncate" title="Blog Yazıları">Blog Yazıları</h5>
+                        <h3 class="my-2 py-1">@Model.BlogCount</h3>
+                        <p class="mb-0 text-muted">
+                            <span class="text-success me-2"><i class="ri-article-line"></i></span>
+                            Toplam Blog
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-end">
+                            <div id="blog-chart" data-colors="#727cf5"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-6">
+                        <h5 class="text-muted fw-normal mt-0 text-truncate" title="Projeler">Projeler</h5>
+                        <h3 class="my-2 py-1">@Model.ProjectCount</h3>
+                        <p class="mb-0 text-muted">
+                            <span class="text-info me-2"><i class="ri-briefcase-line"></i></span>
+                            Toplam Proje
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-end">
+                            <div id="project-chart" data-colors="#0acf97"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-6">
+                        <h5 class="text-muted fw-normal mt-0 text-truncate" title="Blog SEO">Blog SEO</h5>
+                        <h3 class="my-2 py-1">@Model.BlogSeoCount</h3>
+                        <p class="mb-0 text-muted">
+                            <span class="text-warning me-2"><i class="ri-search-line"></i></span>
+                            SEO Optimize
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-end">
+                            <div id="blog-seo-chart" data-colors="#ffbc00"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-6">
+                        <h5 class="text-muted fw-normal mt-0 text-truncate" title="Proje SEO">Proje SEO</h5>
+                        <h3 class="my-2 py-1">@(Model?.ProjectSeoCount ?? 0)</h3>
+                        <p class="mb-0 text-muted">
+                            <span class="text-danger me-2"><i class="ri-search-2-line"></i></span>
+                            SEO Optimize
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-end">
+                            <div id="project-seo-chart" data-colors="#fa5c7c"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3">Hızlı İşlemler</h4>
+                <div class="row">
+                    <div class="col-md-3">
+                        <a href="@Url.Action("BlogSeo", "AdminSeo")" class="btn btn-primary w-100 mb-2">
+                            <i class="ri-article-line me-1"></i> Blog SEO Yönetimi
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="@Url.Action("ProjectSeo", "AdminSeo")" class="btn btn-info w-100 mb-2">
+                            <i class="ri-briefcase-line me-1"></i> Proje SEO Yönetimi
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="@Url.Action("GlobalSeo", "AdminSeo")" class="btn btn-success w-100 mb-2">
+                            <i class="ri-global-line me-1"></i> Global SEO Ayarları
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="@Url.Action("Analytics", "AdminSeo")" class="btn btn-warning w-100 mb-2">
+                            <i class="ri-line-chart-line me-1"></i> SEO Analytics
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent SEO Analytics -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="header-title">Son SEO Analizleri</h4>
+                    <a href="@Url.Action("Analytics", "AdminSeo")" class="btn btn-sm btn-outline-primary">
+                        Tümünü Gör <i class="ri-arrow-right-line"></i>
+                    </a>
+                </div>
+                
+                @if (Model?.RecentAnalytics != null && Model.RecentAnalytics.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-centered table-nowrap mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>İçerik</th>
+                                    <th>Tür</th>
+                                    <th>SEO Skoru</th>
+                                    <th>Analiz Tarihi</th>
+                                    <th>İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var analytics in Model.RecentAnalytics)
+                                {
+                                    <tr>
+                                        <td>
+                                            <h5 class="font-14 my-1">@analytics.Title</h5>
+                                            <span class="text-muted font-13">@analytics.Url</span>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-soft-@(analytics.ContentType == "blog" ? "primary" : "info")">
+                                                @(analytics.ContentType == "blog" ? "Blog" : "Proje")
+                                            </span>
+                                        </td>
+                                        <td>
+                                            @{
+                                                var scoreColor = analytics.SeoScore >= 80 ? "success" : analytics.SeoScore >= 60 ? "warning" : "danger";
+                                                var scoreText = analytics.SeoScore >= 80 ? "Mükemmel" : analytics.SeoScore >= 60 ? "İyi" : analytics.SeoScore >= 40 ? "Orta" : "Zayıf";
+                                            }
+                                            <span class="badge badge-soft-@scoreColor">@analytics.SeoScore - @scoreText</span>
+                                        </td>
+                                        <td>@(analytics.AnalyzedAt?.ToString("dd.MM.yyyy HH:mm") ?? "-")</td>
+                                        <td>
+                                            @if (analytics.ContentType == "blog")
+                                            {
+                                                <a href="@Url.Action("EditBlogSeo", "AdminSeo", new { id = analytics.ContentId })" class="btn btn-xs btn-soft-primary">
+                                                    <i class="ri-edit-line"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a href="@Url.Action("EditProjectSeo", "AdminSeo", new { id = analytics.ContentId })" class="btn btn-xs btn-soft-info">
+                                                    <i class="ri-edit-line"></i>
+                                                </a>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-4">
+                        <i class="ri-search-line font-24 text-muted"></i>
+                        <h5 class="mt-2">Henüz SEO analizi yapılmamış</h5>
+                        <p class="text-muted">Blog yazıları ve projeler için SEO analizi yaparak başlayın.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Global SEO Status -->
+@if (Model?.GlobalSeo != null)
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mb-3">Global SEO Durumu</h4>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="ri-global-line text-primary me-2"></i>
+                                <span class="fw-semibold">Site Adı:</span>
+                                <span class="ms-2">@Model.GlobalSeo.SiteName</span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="ri-search-line text-success me-2"></i>
+                                <span class="fw-semibold">SEO Analizi:</span>
+                                <span class="ms-2 badge badge-soft-@(Model.GlobalSeo.EnableSeoAnalysis ? "success" : "danger")">
+                                    @(Model.GlobalSeo.EnableSeoAnalysis ? "Aktif" : "Pasif")
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="ri-link text-info me-2"></i>
+                                <span class="fw-semibold">Canonical URL:</span>
+                                <span class="ms-2 badge badge-soft-@(Model.GlobalSeo.EnableCanonicalUrls ? "success" : "danger")">
+                                    @(Model.GlobalSeo.EnableCanonicalUrls ? "Aktif" : "Pasif")
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-end mt-3">
+                        <a href="@Url.Action("GlobalSeo", "AdminSeo")" class="btn btn-sm btn-primary">
+                            <i class="ri-settings-3-line me-1"></i> Ayarları Düzenle
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- SEO Analysis Modal -->
+<div class="modal fade" id="seoAnalysisModal" tabindex="-1" aria-labelledby="seoAnalysisModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="seoAnalysisModalLabel">SEO Analiz Sonuçları</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Analysis results will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/seo-tools.js"></script>
+    <script>
+        // Simple chart placeholders - you can integrate with Chart.js or similar
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add any dashboard specific JavaScript here
+            console.log('SEO Dashboard loaded');
+        });
+    </script>
+}

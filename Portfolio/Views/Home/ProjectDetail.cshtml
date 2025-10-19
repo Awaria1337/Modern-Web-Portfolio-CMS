@@ -1,0 +1,85 @@
+@model Portfolio.Models.Proje
+@{
+    Layout = null;
+    ViewData["Title"] = Model?.Baslik ?? "Proje";
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@ViewData["Title"] - Proje</title>
+  
+  <!-- SEO Meta Tags -->
+  <seo-meta content-type="@ViewBag.ContentType" content-id="@ViewBag.ContentId" 
+            seo-title="@ViewBag.SeoTitle" seo-description="@ViewBag.SeoDescription" 
+            seo-keywords="@ViewBag.SeoKeywords" seo-image="@ViewBag.SeoImage" 
+            seo-url="@ViewBag.SeoUrl" />
+  
+  <link rel="shortcut icon" href="~/assets/images/logo.ico" type="image/x-icon">
+  <link rel="stylesheet" href="~/assets/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- SEO Analytics -->
+  <seo-analytics />
+</head>
+
+<body>
+  <main>
+    <div class="main-content" style="padding: 24px">
+      <article class="portfolio active" data-page="portfolio">
+        <header>
+          <h2 class="h2 article-title">@Model.Baslik</h2>
+        </header>
+        <section class="projects">
+          <div class="project-detail" style="max-width: 920px; margin: 0 auto;">
+            <figure class="project-banner-box">
+              <img src="@Model.Gorsel" alt="@Model.Baslik" loading="lazy" style="width: 100%; border-radius: 16px;">
+            </figure>
+            <div class="project-content" style="padding-top: 16px;">
+              <div class="project-meta">
+                <p class="project-category">@Model.Kategori</p>
+                @if (!string.IsNullOrEmpty(Model.Url))
+                {
+                  <span class="dot"></span>
+                  <a href="@Model.Url" target="_blank" class="project-link">Projeyi Görüntüle</a>
+                }
+              </div>
+              <div class="project-text">
+                @Html.Raw(Model.Aciklama)
+              </div>
+              @if (!string.IsNullOrEmpty(Model.Kategori))
+              {
+                <div class="project-technologies" style="margin-top: 20px;">
+                  <h4>Kategori:</h4>
+                  <p>@Model.Kategori</p>
+                </div>
+              }
+            </div>
+            <div style="margin-top: 24px;">
+              <a href="@Url.Action("Index", "Home")" class="btn" style="display:inline-flex; align-items:center; gap:8px">
+                <ion-icon name="arrow-back-outline"></ion-icon>
+                <span>Ana sayfaya dön</span>
+              </a>
+              @if (!string.IsNullOrEmpty(Model.Url))
+              {
+                <a href="@Model.Url" target="_blank" class="btn" style="display:inline-flex; align-items:center; gap:8px; margin-left: 12px;">
+                  <ion-icon name="open-outline"></ion-icon>
+                  <span>Projeyi Görüntüle</span>
+                </a>
+              }
+            </div>
+          </div>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

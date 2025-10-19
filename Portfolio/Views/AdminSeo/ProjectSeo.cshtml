@@ -1,0 +1,329 @@
+@model IEnumerable<Portfolio.Models.Proje>
+@{
+    ViewData["Title"] = "Proje SEO Yönetimi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Start Content-->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Admin")">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "AdminSeo")">SEO Dashboard</a></li>
+                    <li class="breadcrumb-item active">Proje SEO</li>
+                </ol>
+            </div>  
+            <h4 class="page-title">Proje SEO Yönetimi</h4>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="header-title">Projeler SEO Durumu</h4>
+                    <div>
+                        <button type="button" class="btn btn-success btn-sm me-2" onclick="analyzeAllProjects()">
+                            <i class="ri-search-line me-1"></i> Tümünü Analiz Et
+                        </button>
+                        <a href="@Url.Action("Index", "AdminProje")" class="btn btn-primary btn-sm">
+                            <i class="ri-add-line me-1"></i> Yeni Proje Ekle
+                        </a>
+                    </div>
+                </div>
+
+                @if (Model != null && Model.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-centered table-nowrap mb-0" id="projectSeoTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 20px;">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="customCheck1">
+                                            <label class="form-check-label" for="customCheck1">&nbsp;</label>
+                                        </div>
+                                    </th>
+                                    <th>Proje</th>
+                                    <th>Slug</th>
+                                    <th>SEO Durumu</th>
+                                    <th>Meta Başlık</th>
+                                    <th>Meta Açıklama</th>
+                                    <th>Son Analiz</th>
+                                    <th style="width: 125px;">İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var proje in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="customCheck@(proje.Id)">
+                                                <label class="form-check-label" for="customCheck@(proje.Id)">&nbsp;</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <img src="@(string.IsNullOrEmpty(proje.Gorsel) ? "/assets/images/placeholder.jpg" : proje.Gorsel)" 
+                                 alt="@proje.Baslik" class="rounded me-3" height="48">
+                                            <div class="d-inline-block align-middle">
+                                                <h5 class="m-0 font-14">@proje.Baslik</h5>
+                                                <p class="m-0 text-muted font-12">
+                                                    <span class="badge badge-soft-@(proje.Aktif ? "success" : "secondary")">
+                                                        @(proje.Aktif ? "Aktif" : "Pasif")
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(proje.Slug))
+                                            {
+                                                <span class="badge badge-soft-success">@proje.Slug</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-soft-warning">Slug Yok</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (proje.ProjectSeo != null)
+                                            {
+                                                var seoScore = ViewBag.SeoScores != null && ((Dictionary<int, int>)ViewBag.SeoScores).ContainsKey(proje.Id) 
+                                                    ? ((Dictionary<int, int>)ViewBag.SeoScores)[proje.Id] : 0;
+                                                var scoreColor = seoScore >= 80 ? "success" : seoScore >= 60 ? "warning" : "danger";
+                                                var scoreText = seoScore >= 80 ? "Mükemmel" : seoScore >= 60 ? "İyi" : seoScore >= 40 ? "Orta" : "Zayıf";
+                                                <span class="badge badge-soft-@scoreColor">@seoScore - @scoreText</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-soft-secondary">SEO Yok</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (proje.ProjectSeo != null && !string.IsNullOrEmpty(proje.ProjectSeo.MetaTitle))
+                                            {
+                                                <span class="text-truncate d-inline-block" style="max-width: 200px;" title="@proje.ProjectSeo.MetaTitle">
+                                                    @proje.ProjectSeo.MetaTitle
+                                                </span>
+                                                <small class="text-muted d-block">(@proje.ProjectSeo.MetaTitle.Length karakter)</small>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">-</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (proje.ProjectSeo != null && !string.IsNullOrEmpty(proje.ProjectSeo.MetaDescription))
+                                            {
+                                                <span class="text-truncate d-inline-block" style="max-width: 200px;" title="@proje.ProjectSeo.MetaDescription">
+                                                    @proje.ProjectSeo.MetaDescription
+                                                </span>
+                                                <small class="text-muted d-block">(@proje.ProjectSeo.MetaDescription.Length karakter)</small>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">-</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @{
+                                                var lastAnalysis = ViewBag.LastAnalysis != null && ((Dictionary<int, DateTime?>)ViewBag.LastAnalysis).ContainsKey(proje.Id) 
+                                                    ? ((Dictionary<int, DateTime?>)ViewBag.LastAnalysis)[proje.Id] : null;
+                                            }
+                                            @if (lastAnalysis.HasValue)
+                                            {
+                                                <span class="text-muted font-12">@lastAnalysis.Value.ToString("dd.MM.yyyy HH:mm")</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted font-12">Hiç analiz edilmemiş</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a href="@Url.Action("EditProjectSeo", "AdminSeo", new { id = proje.Id })" 
+                                                   class="btn btn-soft-primary btn-sm" title="SEO Düzenle">
+                                                    <i class="ri-edit-line"></i>
+                                                </a>
+                                                <button type="button" class="btn btn-soft-success btn-sm" 
+                                                        onclick="analyzeProject(@proje.Id)" title="SEO Analiz Et">
+                                                    <i class="ri-search-line"></i>
+                                                </button>
+                                                <a href="/proje/@proje.Slug" target="_blank" 
+                                                   class="btn btn-soft-info btn-sm" title="Önizleme">
+                                                    <i class="ri-external-link-line"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-4">
+                        <i class="ri-briefcase-line font-24 text-muted"></i>
+                        <h5 class="mt-2">Henüz proje bulunmuyor</h5>
+                        <p class="text-muted">İlk projenizi ekleyerek SEO optimizasyonuna başlayın.</p>
+                        <a href="@Url.Action("Index", "AdminProje")" class="btn btn-primary">
+                            <i class="ri-add-line me-1"></i> İlk Projeyi Ekle
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SEO Analysis Modal -->
+<div class="modal fade" id="seoAnalysisModal" tabindex="-1" aria-labelledby="seoAnalysisModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="seoAnalysisModalLabel">SEO Analiz Sonuçları</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="seoAnalysisContent">
+                <div class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Analiz ediliyor...</span>
+                    </div>
+                    <p class="mt-2">SEO analizi yapılıyor...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function analyzeProject(projectId) {
+            $('#seoAnalysisModal').modal('show');
+            
+            $.ajax({
+                url: '@Url.Action("AnalyzeSeo", "AdminSeo")',
+                type: 'POST',
+                data: { 
+                    contentId: projectId, 
+                    contentType: 'proje' 
+                },
+                success: function(response) {
+                    if (response.success) {
+                        displayAnalysisResults(response.data);
+                    } else {
+                        $('#seoAnalysisContent').html('<div class="alert alert-danger">Analiz sırasında hata oluştu: ' + response.message + '</div>');
+                    }
+                },
+                error: function() {
+                    $('#seoAnalysisContent').html('<div class="alert alert-danger">Analiz sırasında bir hata oluştu.</div>');
+                }
+            });
+        }
+
+        function analyzeAllProjects() {
+            if (confirm('Tüm projeler için SEO analizi yapılacak. Bu işlem biraz zaman alabilir. Devam etmek istiyor musunuz?')) {
+                // Show loading state
+                $('body').append('<div class="loading-overlay"><div class="spinner-border text-primary" role="status"></div></div>');
+                
+                $.ajax({
+                    url: '@Url.Action("AnalyzeAllProjects", "AdminSeo")',
+                    type: 'POST',
+                    success: function(response) {
+                        $('.loading-overlay').remove();
+                        if (response.success) {
+                            location.reload();
+                        } else {
+                            alert('Analiz sırasında hata oluştu: ' + response.message);
+                        }
+                    },
+                    error: function() {
+                        $('.loading-overlay').remove();
+                        alert('Analiz sırasında bir hata oluştu.');
+                    }
+                });
+            }
+        }
+
+        function displayAnalysisResults(analysis) {
+            var scoreColor = analysis.score >= 80 ? 'success' : analysis.score >= 60 ? 'warning' : 'danger';
+            var scoreText = analysis.score >= 80 ? 'Mükemmel' : analysis.score >= 60 ? 'İyi' : analysis.score >= 40 ? 'Orta' : 'Zayıf';
+            
+            var html = '<div class="row">';
+            html += '<div class="col-md-4 text-center">';
+            html += '<div class="card border-' + scoreColor + '">';
+            html += '<div class="card-body">';
+            html += '<h2 class="text-' + scoreColor + '">' + analysis.score + '</h2>';
+            html += '<p class="mb-0">SEO Skoru</p>';
+            html += '<small class="text-' + scoreColor + '">' + scoreText + '</small>';
+            html += '</div></div></div>';
+            
+            html += '<div class="col-md-8">';
+            html += '<h6>Analiz Detayları:</h6>';
+            html += '<ul class="list-unstyled">';
+            html += '<li><strong>Başlık Uzunluğu:</strong> ' + (analysis.metrics.titleLength || 0) + ' karakter</li>';
+            html += '<li><strong>Açıklama Uzunluğu:</strong> ' + (analysis.metrics.descriptionLength || 0) + ' karakter</li>';
+            html += '<li><strong>İçerik Kelime Sayısı:</strong> ' + (analysis.metrics.wordCount || 0) + ' kelime</li>';
+            html += '<li><strong>Anahtar Kelime Yoğunluğu:</strong> %' + (analysis.metrics.keywordDensity || 0) + '</li>';
+            html += '</ul>';
+            
+            if (analysis.issues && analysis.issues.length > 0) {
+                html += '<h6 class="text-danger">Sorunlar:</h6>';
+                html += '<ul class="text-danger">';
+                analysis.issues.forEach(function(issue) {
+                    html += '<li>' + issue + '</li>';
+                });
+                html += '</ul>';
+            }
+            
+            if (analysis.recommendations && analysis.recommendations.length > 0) {
+                html += '<h6 class="text-info">Öneriler:</h6>';
+                html += '<ul class="text-info">';
+                analysis.recommendations.forEach(function(recommendation) {
+                    html += '<li>' + recommendation + '</li>';
+                });
+                html += '</ul>';
+            }
+            
+            html += '</div></div>';
+            
+            $('#seoAnalysisContent').html(html);
+        }
+
+        // DataTable initialization
+        $(document).ready(function() {
+            if ($('#projectSeoTable').length) {
+                $('#projectSeoTable').DataTable({
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Turkish.json"
+                    },
+                    "pageLength": 25,
+                    "order": [[ 1, "desc" ]]
+                });
+            }
+        });
+    </script>
+    
+    <style>
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+    </style>
+}

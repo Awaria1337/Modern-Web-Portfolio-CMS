@@ -1,0 +1,234 @@
+@model IEnumerable<Portfolio.Models.Blog>
+@{
+    ViewData["Title"] = "Blog SEO Yönetimi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Start Content-->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Admin")">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "AdminSeo")">SEO Dashboard</a></li>
+                    <li class="breadcrumb-item active">Blog SEO</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Blog SEO Yönetimi</h4>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="header-title">Blog Yazıları SEO Durumu</h4>
+                    <div>
+                        <button type="button" class="btn btn-success btn-sm me-2" id="analyze-all-seo">
+                            <i class="ri-search-line me-1"></i> Tümünü Analiz Et
+                        </button>
+                        <a href="@Url.Action("Index", "AdminBlog")" class="btn btn-primary btn-sm">
+                            <i class="ri-add-line me-1"></i> Yeni Blog Ekle
+                        </a>
+                    </div>
+                </div>
+
+                @if (Model != null && Model.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-centered table-nowrap mb-0" id="blogSeoTable">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 20px;">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="customCheck1">
+                                            <label class="form-check-label" for="customCheck1">&nbsp;</label>
+                                        </div>
+                                    </th>
+                                    <th>Blog Yazısı</th>
+                                    <th>Slug</th>
+                                    <th>SEO Durumu</th>
+                                    <th>Meta Başlık</th>
+                                    <th>Meta Açıklama</th>
+                                    <th>Son Analiz</th>
+                                    <th style="width: 125px;">İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var blog in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="customCheck@(blog.Id)">
+                                                <label class="form-check-label" for="customCheck@(blog.Id)">&nbsp;</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <img src="@(string.IsNullOrEmpty(blog.Gorsel) ? "/assets/images/placeholder.jpg" : blog.Gorsel)" 
+                                                 alt="@blog.Baslik" class="rounded me-3" height="48">
+                                            <div class="d-inline-block align-middle">
+                                                <h5 class="m-0 font-14">@blog.Baslik</h5>
+                                                <p class="m-0 text-muted font-12">@(blog.Tarih?.ToString("dd.MM.yyyy") ?? "-")</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @if (!string.IsNullOrEmpty(blog.Slug))
+                                            {
+                                                <span class="badge badge-soft-success">@blog.Slug</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-soft-warning">Slug Yok</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (blog.BlogSeo != null)
+                                            {
+                                                var seoScore = ViewBag.SeoScores != null && ((Dictionary<int, int>)ViewBag.SeoScores).ContainsKey(blog.Id) 
+                                                    ? ((Dictionary<int, int>)ViewBag.SeoScores)[blog.Id] : 0;
+                                                var scoreColor = seoScore >= 80 ? "success" : seoScore >= 60 ? "warning" : "danger";
+                                                var scoreText = seoScore >= 80 ? "Mükemmel" : seoScore >= 60 ? "İyi" : seoScore >= 40 ? "Orta" : "Zayıf";
+                                                <span class="badge badge-soft-@scoreColor">@seoScore - @scoreText</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-soft-secondary">SEO Yok</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (blog.BlogSeo != null && !string.IsNullOrEmpty(blog.BlogSeo.MetaTitle))
+                                            {
+                                                <span class="text-truncate d-inline-block" style="max-width: 200px;" title="@blog.BlogSeo.MetaTitle">
+                                                    @blog.BlogSeo.MetaTitle
+                                                </span>
+                                                <small class="text-muted d-block">(@blog.BlogSeo.MetaTitle.Length karakter)</small>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">-</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (blog.BlogSeo != null && !string.IsNullOrEmpty(blog.BlogSeo.MetaDescription))
+                                            {
+                                                <span class="text-truncate d-inline-block" style="max-width: 200px;" title="@blog.BlogSeo.MetaDescription">
+                                                    @blog.BlogSeo.MetaDescription
+                                                </span>
+                                                <small class="text-muted d-block">(@blog.BlogSeo.MetaDescription.Length karakter)</small>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">-</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @{
+                                                var lastAnalysis = ViewBag.LastAnalysis != null && ((Dictionary<int, DateTime?>)ViewBag.LastAnalysis).ContainsKey(blog.Id) 
+                                                    ? ((Dictionary<int, DateTime?>)ViewBag.LastAnalysis)[blog.Id] : null;
+                                            }
+                                            @if (lastAnalysis.HasValue)
+                                            {
+                                                <span class="text-muted font-12">@lastAnalysis.Value.ToString("dd.MM.yyyy HH:mm")</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted font-12">Hiç analiz edilmemiş</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a href="@Url.Action("EditBlogSeo", "AdminSeo", new { id = blog.Id })" 
+                                                   class="btn btn-soft-primary btn-sm" title="SEO Düzenle">
+                                                    <i class="ri-edit-line"></i>
+                                                </a>
+                                                <button type="button" class="btn btn-soft-success btn-sm analyze-seo-btn" 
+                                                        data-content-type="blog" data-content-id="@blog.Id" title="SEO Analiz Et">
+                                                    <i class="ri-search-line"></i>
+                                                </button>
+                                                <a href="/blog/@blog.Slug" target="_blank" 
+                                                   class="btn btn-soft-info btn-sm" title="Önizleme">
+                                                    <i class="ri-external-link-line"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-4">
+                        <i class="ri-article-line font-24 text-muted"></i>
+                        <h5 class="mt-2">Henüz blog yazısı bulunmuyor</h5>
+                        <p class="text-muted">İlk blog yazınızı ekleyerek SEO optimizasyonuna başlayın.</p>
+                        <a href="@Url.Action("Index", "AdminBlog")" class="btn btn-primary">
+                            <i class="ri-add-line me-1"></i> İlk Blog Yazısını Ekle
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SEO Analysis Modal -->
+<div class="modal fade" id="seoAnalysisModal" tabindex="-1" aria-labelledby="seoAnalysisModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="seoAnalysisModalLabel">SEO Analiz Sonuçları</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="seoAnalysisContent">
+                <div class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Analiz ediliyor...</span>
+                    </div>
+                    <p class="mt-2">SEO analizi yapılıyor...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/seo-tools.js"></script>
+    <script>
+        // DataTable initialization
+        $(document).ready(function() {
+            if ($('#blogSeoTable').length) {
+                $('#blogSeoTable').DataTable({
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Turkish.json"
+                    },
+                    "pageLength": 25,
+                    "order": [[ 1, "desc" ]]
+                });
+            }
+        });
+    </script>
+    
+    <style>
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+    </style>
+}

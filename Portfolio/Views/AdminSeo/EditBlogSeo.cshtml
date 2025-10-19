@@ -1,0 +1,467 @@
+@model Portfolio.Models.Blog
+@{
+    ViewData["Title"] = "Blog SEO Düzenle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Start Content-->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Admin")">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "AdminSeo")">SEO Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("BlogSeo", "AdminSeo")">Blog SEO</a></li>
+                    <li class="breadcrumb-item active">SEO Düzenle</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Blog SEO Düzenle: @Model.Baslik</h4>
+        </div>
+    </div>
+</div>
+
+<form asp-action="EditBlogSeo" method="post" id="blogSeoForm">
+    <input type="hidden" asp-for="Id" />
+    
+    <div class="row">
+        <!-- SEO Form -->
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mb-3">SEO Bilgileri</h4>
+                    
+                    <!-- Slug -->
+                    <div class="mb-3">
+                        <label for="slug" class="form-label">URL Slug <span class="text-danger">*</span></label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="slug" name="Slug" 
+                                   value="@Model.Slug" placeholder="blog-yazisi-url-slug" required>
+                            <button type="button" class="btn btn-outline-secondary" onclick="generateSlug()">
+                                <i class="ri-refresh-line"></i> Oluştur
+                            </button>
+                        </div>
+                        <div class="form-text">
+                            URL: <span class="text-primary">https://example.com/blog/<span id="slugPreview">@Model.Slug</span></span>
+                        </div>
+                        <div id="slugFeedback" class="invalid-feedback"></div>
+                    </div>
+
+                    <!-- Meta Title -->
+                    <div class="mb-3">
+                        <label for="metaTitle" class="form-label">Meta Başlık</label>
+                        <input type="text" class="form-control" id="metaTitle" name="BlogSeo.MetaTitle" 
+                               value="@Model.BlogSeo?.MetaTitle" placeholder="SEO için optimize edilmiş başlık" maxlength="60">
+                        <div class="form-text">
+                            <span id="metaTitleCount">@(Model.BlogSeo?.MetaTitle?.Length ?? 0)</span>/60 karakter
+                            <span id="metaTitleStatus" class="ms-2"></span>
+                        </div>
+                    </div>
+
+                    <!-- Meta Description -->
+                    <div class="mb-3">
+                        <label for="metaDescription" class="form-label">Meta Açıklama</label>
+                        <textarea class="form-control" id="metaDescription" name="BlogSeo.MetaDescription" 
+                                  rows="3" placeholder="SEO için optimize edilmiş açıklama" maxlength="160">@Model.BlogSeo?.MetaDescription</textarea>
+                        <div class="form-text">
+                            <span id="metaDescCount">@(Model.BlogSeo?.MetaDescription?.Length ?? 0)</span>/160 karakter
+                            <span id="metaDescStatus" class="ms-2"></span>
+                        </div>
+                    </div>
+
+                    <!-- Meta Keywords -->
+                    <div class="mb-3">
+                        <label for="metaKeywords" class="form-label">Meta Anahtar Kelimeler</label>
+                        <input type="text" class="form-control" id="metaKeywords" name="BlogSeo.MetaKeywords" 
+                               value="@Model.BlogSeo?.MetaKeywords" placeholder="anahtar, kelime, virgülle, ayrılmış">
+                        <div class="form-text">Anahtar kelimeleri virgülle ayırın. Maksimum 10 anahtar kelime önerilir.</div>
+                    </div>
+
+                    <!-- Focus Keyword -->
+                    <div class="mb-3">
+                        <label for="focusKeyword" class="form-label">Odak Anahtar Kelime</label>
+                        <input type="text" class="form-control" id="focusKeyword" name="BlogSeo.FocusKeyword" 
+                               value="@Model.BlogSeo?.FocusKeyword" placeholder="ana anahtar kelime">
+                        <div class="form-text">Bu yazının odaklandığı ana anahtar kelime.</div>
+                    </div>
+
+                    <!-- Open Graph -->
+                    <h5 class="mt-4 mb-3">Open Graph (Sosyal Medya)</h5>
+                    
+                    <div class="mb-3">
+                        <label for="ogTitle" class="form-label">OG Başlık</label>
+                        <input type="text" class="form-control" id="ogTitle" name="BlogSeo.OgTitle" 
+                               value="@Model.BlogSeo?.OgTitle" placeholder="Sosyal medya için başlık">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ogDescription" class="form-label">OG Açıklama</label>
+                        <textarea class="form-control" id="ogDescription" name="BlogSeo.OgDescription" 
+                                  rows="2" placeholder="Sosyal medya için açıklama">@Model.BlogSeo?.OgDescription</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ogImage" class="form-label">OG Resim URL</label>
+                        <input type="url" class="form-control" id="ogImage" name="BlogSeo.OgImage" 
+                               value="@Model.BlogSeo?.OgImage" placeholder="https://example.com/image.jpg">
+                    </div>
+
+                    <!-- Twitter Card -->
+                    <h5 class="mt-4 mb-3">Twitter Card</h5>
+                    
+                    <div class="mb-3">
+                        <label for="twitterTitle" class="form-label">Twitter Başlık</label>
+                        <input type="text" class="form-control" id="twitterTitle" name="BlogSeo.TwitterTitle" 
+                               value="@Model.BlogSeo?.TwitterTitle" placeholder="Twitter için başlık">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="twitterDescription" class="form-label">Twitter Açıklama</label>
+                        <textarea class="form-control" id="twitterDescription" name="BlogSeo.TwitterDescription" 
+                                  rows="2" placeholder="Twitter için açıklama">@Model.BlogSeo?.TwitterDescription</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="twitterImage" class="form-label">Twitter Resim URL</label>
+                        <input type="url" class="form-control" id="twitterImage" name="BlogSeo.TwitterImage" 
+                               value="@Model.BlogSeo?.TwitterImage" placeholder="https://example.com/image.jpg">
+                    </div>
+
+                    <!-- Additional Settings -->
+                    <h5 class="mt-4 mb-3">Ek Ayarlar</h5>
+                    
+                    <div class="mb-3">
+                        <label for="canonicalUrl" class="form-label">Canonical URL</label>
+                        <input type="url" class="form-control" id="canonicalUrl" name="BlogSeo.CanonicalUrl" 
+                               value="@Model.BlogSeo?.CanonicalUrl" placeholder="https://example.com/canonical-url">
+                        <div class="form-text">Boş bırakılırsa otomatik olarak bu sayfanın URL'si kullanılır.</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="noIndex" name="BlogSeo.NoIndex" 
+                                       @(Model.BlogSeo?.NoIndex == true ? "checked" : "")>
+                                <label class="form-check-label" for="noIndex">
+                                    No Index (Arama motorlarında gösterme)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="noFollow" name="BlogSeo.NoFollow" 
+                                       @(Model.BlogSeo?.NoFollow == true ? "checked" : "")>
+                                <label class="form-check-label" for="noFollow">
+                                    No Follow (Linkleri takip etme)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEO Analysis & Preview -->
+        <div class="col-lg-4">
+            <!-- SEO Score -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">SEO Skoru</h5>
+                    <div class="text-center">
+                        <div id="seoScoreCircle" class="mb-3">
+                            <h2 id="seoScore" class="text-muted">-</h2>
+                            <p id="seoScoreText" class="mb-0">Analiz Et</p>
+                        </div>
+                        <button type="button" class="btn btn-success btn-sm" onclick="analyzeSeo()">
+                            <i class="ri-search-line me-1"></i> SEO Analiz Et
+                        </button>
+                    </div>
+                    <div id="seoAnalysisResults" class="mt-3" style="display: none;">
+                        <!-- Analysis results will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Google Preview -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Google Önizleme</h5>
+                    <div class="google-preview">
+                        <div class="google-url" id="googleUrl">
+                            https://example.com/blog/<span id="googleSlug">@Model.Slug</span>
+                        </div>
+                        <div class="google-title" id="googleTitle">@(Model.BlogSeo?.MetaTitle ?? Model.Baslik)</div>
+                        <div class="google-description" id="googleDescription">@(Model.BlogSeo?.MetaDescription ?? Model.Ozet)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Media Preview -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Sosyal Medya Önizleme</h5>
+                    <div class="social-preview">
+                        <div class="social-image" id="socialImage">
+                            @if (!string.IsNullOrEmpty(Model.BlogSeo?.OgImage ?? Model.Gorsel))
+                            {
+                                <img src="@(Model.BlogSeo?.OgImage ?? Model.Gorsel)" alt="Preview" class="img-fluid">
+                            }
+                            else
+                            {
+                                <div class="no-image">Resim Yok</div>
+                            }
+                        </div>
+                        <div class="social-content">
+                            <div class="social-title" id="socialTitle">@(Model.BlogSeo?.OgTitle ?? Model.BlogSeo?.MetaTitle ?? Model.Baslik)</div>
+                            <div class="social-description" id="socialDescription">@(Model.BlogSeo?.OgDescription ?? Model.BlogSeo?.MetaDescription ?? Model.Ozet)</div>
+                            <div class="social-url">https://example.com</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="ri-save-line me-1"></i> SEO Ayarlarını Kaydet
+                        </button>
+                        <a href="@Url.Action("BlogSeo", "AdminSeo")" class="btn btn-secondary">
+                            <i class="ri-arrow-left-line me-1"></i> Geri Dön
+                        </a>
+                        <a href="/blog/@Model.Slug" target="_blank" class="btn btn-info">
+                            <i class="ri-external-link-line me-1"></i> Sayfayı Görüntüle
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Character counters
+            updateCharacterCount('#metaTitle', '#metaTitleCount', '#metaTitleStatus', 60);
+            updateCharacterCount('#metaDescription', '#metaDescCount', '#metaDescStatus', 160);
+            
+            // Real-time preview updates
+            $('#slug').on('input', updatePreviews);
+            $('#metaTitle').on('input', updatePreviews);
+            $('#metaDescription').on('input', updatePreviews);
+            $('#ogTitle').on('input', updatePreviews);
+            $('#ogDescription').on('input', updatePreviews);
+            $('#ogImage').on('input', updatePreviews);
+            
+            // Character count events
+            $('#metaTitle').on('input', function() {
+                updateCharacterCount('#metaTitle', '#metaTitleCount', '#metaTitleStatus', 60);
+            });
+            
+            $('#metaDescription').on('input', function() {
+                updateCharacterCount('#metaDescription', '#metaDescCount', '#metaDescStatus', 160);
+            });
+        });
+
+        function updateCharacterCount(inputSelector, countSelector, statusSelector, maxLength) {
+            var input = $(inputSelector);
+            var count = $(countSelector);
+            var status = $(statusSelector);
+            var length = input.val().length;
+            
+            count.text(length);
+            
+            if (length === 0) {
+                status.text('').removeClass();
+            } else if (length < maxLength * 0.5) {
+                status.text('Çok kısa').removeClass().addClass('text-warning');
+            } else if (length <= maxLength * 0.9) {
+                status.text('İyi').removeClass().addClass('text-success');
+            } else if (length <= maxLength) {
+                status.text('Maksimuma yakın').removeClass().addClass('text-info');
+            } else {
+                status.text('Çok uzun').removeClass().addClass('text-danger');
+            }
+        }
+
+        function updatePreviews() {
+            // Update Google preview
+            var slug = $('#slug').val() || '@Model.Slug';
+            var title = $('#metaTitle').val() || '@Model.Baslik';
+            var description = $('#metaDescription').val() || '@Model.Ozet';
+            
+            $('#googleSlug').text(slug);
+            $('#slugPreview').text(slug);
+            $('#googleTitle').text(title);
+            $('#googleDescription').text(description);
+            
+            // Update social media preview
+            var ogTitle = $('#ogTitle').val() || title;
+            var ogDescription = $('#ogDescription').val() || description;
+            var ogImage = $('#ogImage').val();
+            
+            $('#socialTitle').text(ogTitle);
+            $('#socialDescription').text(ogDescription);
+            
+            if (ogImage) {
+                $('#socialImage').html('<img src="' + ogImage + '" alt="Preview" class="img-fluid">');
+            }
+        }
+
+        function generateSlug() {
+            var title = '@Model.Baslik';
+            var slug = title.toLowerCase()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .trim('-');
+            
+            $('#slug').val(slug);
+            updatePreviews();
+        }
+
+        function analyzeSeo() {
+            $('#seoScore').text('...');
+            $('#seoScoreText').text('Analiz ediliyor...');
+            
+            $.ajax({
+                url: '@Url.Action("AnalyzeSeo", "AdminSeo")',
+                type: 'POST',
+                data: { 
+                    contentId: @Model.Id, 
+                    contentType: 'blog' 
+                },
+                success: function(response) {
+                    if (response.success) {
+                        displaySeoResults(response.data);
+                    } else {
+                        $('#seoScore').text('!');
+                        $('#seoScoreText').text('Hata');
+                    }
+                },
+                error: function() {
+                    $('#seoScore').text('!');
+                    $('#seoScoreText').text('Hata');
+                }
+            });
+        }
+
+        function displaySeoResults(analysis) {
+            var scoreColor = analysis.score >= 80 ? 'success' : analysis.score >= 60 ? 'warning' : 'danger';
+            var scoreText = analysis.score >= 80 ? 'Mükemmel' : analysis.score >= 60 ? 'İyi' : analysis.score >= 40 ? 'Orta' : 'Zayıf';
+            
+            $('#seoScore').text(analysis.score).removeClass().addClass('text-' + scoreColor);
+            $('#seoScoreText').text(scoreText);
+            
+            var resultsHtml = '<div class="mt-3">';
+            
+            if (analysis.issues && analysis.issues.length > 0) {
+                resultsHtml += '<h6 class="text-danger">Sorunlar:</h6>';
+                resultsHtml += '<ul class="small text-danger">';
+                analysis.issues.forEach(function(issue) {
+                    resultsHtml += '<li>' + issue + '</li>';
+                });
+                resultsHtml += '</ul>';
+            }
+            
+            if (analysis.recommendations && analysis.recommendations.length > 0) {
+                resultsHtml += '<h6 class="text-info">Öneriler:</h6>';
+                resultsHtml += '<ul class="small text-info">';
+                analysis.recommendations.forEach(function(recommendation) {
+                    resultsHtml += '<li>' + recommendation + '</li>';
+                });
+                resultsHtml += '</ul>';
+            }
+            
+            resultsHtml += '</div>';
+            
+            $('#seoAnalysisResults').html(resultsHtml).show();
+        }
+    </script>
+    
+    <style>
+        .google-preview {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px;
+            background: #fff;
+        }
+        
+        .google-url {
+            color: #1a0dab;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+        
+        .google-title {
+            color: #1a0dab;
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.3;
+            margin-bottom: 3px;
+            cursor: pointer;
+        }
+        
+        .google-title:hover {
+            text-decoration: underline;
+        }
+        
+        .google-description {
+            color: #4d5156;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .social-preview {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #fff;
+        }
+        
+        .social-image {
+            height: 120px;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .social-image img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: cover;
+        }
+        
+        .no-image {
+            color: #999;
+            font-size: 14px;
+        }
+        
+        .social-content {
+            padding: 12px;
+        }
+        
+        .social-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 4px;
+            color: #1d2129;
+        }
+        
+        .social-description {
+            color: #606770;
+            font-size: 14px;
+            line-height: 1.3;
+            margin-bottom: 4px;
+        }
+        
+        .social-url {
+            color: #606770;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+    </style>
+}

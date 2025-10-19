@@ -1,0 +1,40 @@
+@model Portfolio.Models.Hakkimda
+@{
+    ViewData["Title"] = "Hakkımda Yönetimi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="admin-content">
+    <div class="content-header">
+        <h2><i class="fas fa-user"></i> Hakkımda Bilgileri</h2>
+        <a href="@Url.Action("Edit")" class="btn btn-primary">
+            <i class="fas fa-edit"></i> Düzenle
+        </a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    @if (Model != null)
+    {
+        <div class="card">
+            <div class="card-body">
+                <h4>@Model.Baslik</h4>
+                <hr />
+                <p><strong>Açıklama 1:</strong></p>
+                <p>@Model.Aciklama1</p>
+                <hr />
+                <p><strong>Açıklama 2:</strong></p>
+                <p>@Model.Aciklama2</p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            Henüz hakkımda bilgisi eklenmemiş. <a href="@Url.Action("Edit")">Buraya tıklayarak</a> ekleyin.
+        </div>
+    }
+</div>

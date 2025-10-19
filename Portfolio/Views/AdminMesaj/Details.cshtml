@@ -1,0 +1,58 @@
+@model Portfolio.Models.Mesaj
+@{
+    ViewData["Title"] = "Mesaj Detayı";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="admin-content">
+    <div class="content-header">
+        <h2><i class="fas fa-envelope-open"></i> Mesaj Detayı</h2>
+        <a href="@Url.Action("Index")" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Geri
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h4>@Model.Konu</h4>
+            <small class="text-muted">@Model.Tarih?.ToString("dd MMMM yyyy HH:mm")</small>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p><strong>Gönderen:</strong> @Model.Ad</p>
+                    <p><strong>Email:</strong> <a href="mailto:@Model.Email">@Model.Email</a></p>
+                </div>
+                <div class="col-md-6 text-right">
+                    @if (Model.Okundu)
+                    {
+                        <span class="badge badge-success">Okundu</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-warning">Okunmadı</span>
+                    }
+                </div>
+            </div>
+            <hr />
+            <div class="message-content">
+                <h5>Mesaj İçeriği:</h5>
+                <p>@Model.MesajMetni</p>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button onclick="if(confirm('Bu mesaj silinecek. Emin misiniz?')) window.location.href='@Url.Action("Index")'" class="btn btn-danger">
+                <i class="fas fa-trash"></i> Sil
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+.message-content {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    border-left: 4px solid #007bff;
+}
+</style>

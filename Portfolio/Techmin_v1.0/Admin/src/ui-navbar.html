@@ -1,0 +1,255 @@
+@@include('./partials/html.html')
+
+<head>
+    @@include("./partials/title-meta.html", {"title": "Navbar"})
+
+    @@include('./partials/head-css.html')
+</head>
+
+<body>
+    <!-- Begin page -->
+    <div class="wrapper">
+
+        @@include('./partials/menu.html', {"title":"Navbar"})
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-xl-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Navbar</h4>
+                                    <p class="text-muted mb-0">all the sub-components included in a responsive light-themed navbar that automatically collapses at the lg (large) breakpoint.</p>
+                                </div>
+                                <div class="card-body">
+                                    <nav class="navbar navbar-expand-lg bg-light">
+                                        <div class="container-fluid">
+                                            <a class="navbar-brand" href="#">Navbar</a>
+                                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#navbarSupportedContent"
+                                                aria-controls="navbarSupportedContent" aria-expanded="false"
+                                                aria-label="Toggle navigation">
+                                                <span class="navbar-toggler-icon"></span>
+                                            </button>
+                                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="#">Link</a>
+                                                    </li>
+                                                    <li class="nav-item dropdown">
+                                                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                            Dropdown
+                                                        </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a class="dropdown-item" href="#">Action</a></li>
+                                                            <li><a class="dropdown-item" href="#">Another action</a>
+                                                            </li>
+                                                            <li>
+                                                                <hr class="dropdown-divider">
+                                                            </li>
+                                                            <li><a class="dropdown-item" href="#">Something else
+                                                                    here</a></li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                                                    </li>
+                                                </ul>
+                                                <form class="d-flex" role="search">
+                                                    <input class="form-control me-2" type="search" placeholder="Search"
+                                                        aria-label="Search">
+                                                    <button class="btn btn-outline-primary"
+                                                        type="submit">Search</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </nav>
+                                </div> <!-- end card-body-->
+                            </div> <!-- end card-->
+                        </div> <!-- end col-->
+
+                        <div class="col-xl-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Navbar-Dropdown</h4>
+                                    <p class="text-muted mb-0">You can also use dropdowns in your navbar. Dropdown menus require a wrapping element for positioning, so be sure to use separate and nested elements for .nav-item and .nav-link as shown below.</p>
+                                </div>
+                                <div class="card-body">
+                                    <nav class="navbar navbar-expand-lg bg-light">
+                                        <div class="container-fluid">
+                                            <a class="navbar-brand" href="#">Navbar</a>
+                                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+                                                aria-expanded="false" aria-label="Toggle navigation">
+                                                <span class="navbar-toggler-icon"></span>
+                                            </button>
+                                            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                                                <ul class="navbar-nav">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="#">Features</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="#">Pricing</a>
+                                                    </li>
+                                                    <li class="nav-item dropdown">
+                                                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                            Dropdown link
+                                                        </a>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a class="dropdown-item" href="#">Action</a></li>
+                                                            <li><a class="dropdown-item" href="#">Another action</a>
+                                                            </li>
+                                                            <li><a class="dropdown-item" href="#">Something else
+                                                                    here</a></li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </nav>
+                                </div> <!-- end card-body-->
+                            </div> <!-- end card-->
+                        </div> <!-- end col-->
+
+                        <div class="col-xl-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Text</h4>
+                                    <p class="text-muted mb-0">Navbars may contain bits of text with the help of .navbar-text. This class adjusts vertical alignment and horizontal spacing for strings of text.</p>
+                                </div>
+                                <div class="card-body">
+                                    <nav class="navbar navbar-expand-lg bg-light">
+                                        <div class="container-fluid">
+                                            <a class="navbar-brand" href="#">Navbar w/ text</a>
+                                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                                data-bs-target="#navbarText" aria-controls="navbarText"
+                                                aria-expanded="false" aria-label="Toggle navigation">
+                                                <span class="navbar-toggler-icon"></span>
+                                            </button>
+                                            <div class="collapse navbar-collapse" id="navbarText">
+                                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="#">Features</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="#">Pricing</a>
+                                                    </li>
+                                                </ul>
+                                                <span class="navbar-text">
+                                                    Navbar text with an inline element
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </nav>
+                                </div> <!-- end card-body-->
+                            </div> <!-- end card-->
+                        </div> <!-- end col-->
+
+
+                        <div class="col-xl-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Offcanvas </h4>
+                                    <p class="text-muted mb-0">Transform your expanding and collapsing navbar into an offcanvas drawer with the offcanvas component. We extend both the offcanvas default styles and use our .navbar-expand-* classes to create a dynamic and flexible navigation sidebar. </p>
+                                </div>
+                                <div class="card-body">
+                                    <nav class="navbar bg-light">
+                                        <div class="container-fluid">
+                                            <a class="navbar-brand" href="#">Offcanvas navbar</a>
+                                            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                                                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
+                                                aria-label="Toggle navigation">
+                                                <span class="navbar-toggler-icon"></span>
+                                            </button>
+                                            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                                                aria-labelledby="offcanvasNavbarLabel">
+                                                <div class="offcanvas-header">
+                                                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="offcanvas-body">
+                                                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link active" aria-current="page"
+                                                                href="#">Home</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" href="#">Link</a>
+                                                        </li>
+                                                        <li class="nav-item dropdown">
+                                                            <a class="nav-link dropdown-toggle" href="#" role="button"
+                                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                                Dropdown
+                                                            </a>
+                                                            <ul class="dropdown-menu">
+                                                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                                                <li><a class="dropdown-item" href="#">Another action</a>
+                                                                </li>
+                                                                <li>
+                                                                    <hr class="dropdown-divider">
+                                                                </li>
+                                                                <li><a class="dropdown-item" href="#">Something else
+                                                                        here</a></li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                    <form class="d-flex mt-3" role="search">
+                                                        <input class="form-control me-2" type="search"
+                                                            placeholder="Search" aria-label="Search">
+                                                        <button class="btn btn-outline-success"
+                                                            type="submit">Search</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </nav>
+                                </div> <!-- end card-body-->
+                            </div> <!-- end card-->
+                        </div> <!-- end col-->
+                        
+                    </div>
+                </div> <!-- container -->
+
+
+                @@include('./partials/footer.html')
+
+            </div>
+
+            <!-- ============================================================== -->
+
+        </div> <!-- End Page content -->
+        <!-- ============================================================== -->
+
+    </div>
+    <!-- END wrapper -->
+
+    @@include('./partials/right-sidebar.html')
+
+    @@include('./partials/footer-scripts.html')
+
+    <!-- App js -->
+    <script src="assets/js/app.min.js"></script>
+
+</body>
+
+</html>

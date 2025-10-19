@@ -1,0 +1,78 @@
+@model Portfolio.Models.Profile
+@{
+    ViewData["Title"] = "Profil Bilgileri";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <h1><i class="fas fa-user-circle"></i> @ViewData["Title"]</h1>
+    <a href="@Url.Action("Edit")" class="btn btn-primary">
+        <i class="fas fa-edit"></i> Düzenle
+    </a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        <i class="fas fa-check-circle"></i> @TempData["Success"]
+    </div>
+}
+
+<div class="content-card">
+    @if (Model != null)
+    {
+        <table class="table">
+            <tr>
+                <th width="200">Ad</th>
+                <td>@Model.Ad</td>
+            </tr>
+            <tr>
+                <th>Soyad</th>
+                <td>@Model.Soyad</td>
+            </tr>
+            <tr>
+                <th>Ünvan</th>
+                <td>@Model.Unvan</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>@Model.Email</td>
+            </tr>
+            <tr>
+                <th>Telefon</th>
+                <td>@Model.Telefon</td>
+            </tr>
+            <tr>
+                <th>Doğum Tarihi</th>
+                <td>@Model.DogumTarihi</td>
+            </tr>
+            <tr>
+                <th>Lokasyon</th>
+                <td>@Model.Lokasyon</td>
+            </tr>
+            <tr>
+                <th>Profil Fotoğrafı</th>
+                <td>
+                    @if (!string.IsNullOrEmpty(Model.ProfilFoto))
+                    {
+                        <img src="@Model.ProfilFoto" alt="Profil" style="max-width: 150px; border-radius: 10px;" />
+                    }
+                    else
+                    {
+                        <span class="text-muted">Fotoğraf yüklenmemiş</span>
+                    }
+                </td>
+            </tr>
+        </table>
+    }
+    else
+    {
+        <div style="text-align: center; padding: 50px; color: #999;">
+            <i class="fas fa-user-slash" style="font-size: 48px; margin-bottom: 20px;"></i>
+            <p>Profil bilgisi bulunamadı. Lütfen profil bilgilerinizi ekleyin.</p>
+            <a href="@Url.Action("Edit")" class="btn btn-primary" style="margin-top: 20px;">
+                <i class="fas fa-plus"></i> Profil Oluştur
+            </a>
+        </div>
+    }
+</div>

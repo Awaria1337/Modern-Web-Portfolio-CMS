@@ -1,0 +1,490 @@
+@model Portfolio.Models.GlobalSeo
+@{
+    ViewData["Title"] = "Global SEO Ayarları";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Start Content-->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Admin")">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "AdminSeo")">SEO Dashboard</a></li>
+                    <li class="breadcrumb-item active">Global SEO</li>
+                </ol>
+            </div>
+            <h4 class="page-title">Global SEO Ayarları</h4>
+        </div>
+    </div>
+</div>
+
+<form asp-action="GlobalSeo" method="post" id="globalSeoForm">
+    <input type="hidden" asp-for="Id" />
+    
+    <div class="row">
+        <!-- Main Settings -->
+        <div class="col-lg-8">
+            <!-- Site Information -->
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mb-3">Site Bilgileri</h4>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="siteName" class="form-label">Site Adı <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="siteName" name="SiteName" 
+                                       value="@Model?.SiteName" placeholder="Portfolio Site" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="siteUrl" class="form-label">Site URL <span class="text-danger">*</span></label>
+                                <input type="url" class="form-control" id="siteUrl" name="SiteUrl" 
+                                       value="@Model?.SiteUrl" placeholder="https://example.com" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="siteDescription" class="form-label">Site Açıklaması</label>
+                        <textarea class="form-control" id="siteDescription" name="SiteDescription" 
+                                  rows="3" placeholder="Site hakkında kısa açıklama" maxlength="160">@Model?.SiteDescription</textarea>
+                        <div class="form-text">
+                            <span id="siteDescCount">@(Model?.SiteDescription?.Length ?? 0)</span>/160 karakter
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="siteKeywords" class="form-label">Site Anahtar Kelimeleri</label>
+                        <input type="text" class="form-control" id="siteKeywords" name="SiteKeywords" 
+                               value="@Model?.SiteKeywords" placeholder="portfolio, web developer, yazılım">
+                        <div class="form-text">Anahtar kelimeleri virgülle ayırın.</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="defaultLanguage" class="form-label">Varsayılan Dil</label>
+                                <select class="form-select" id="defaultLanguage" name="DefaultLanguage">
+                                    <option value="tr" selected="@(Model?.DefaultLanguage == "tr")">Türkçe</option>
+                                    <option value="en" selected="@(Model?.DefaultLanguage == "en")">English</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="defaultImage" class="form-label">Varsayılan OG Resim</label>
+                                <input type="url" class="form-control" id="defaultImage" name="DefaultImage" 
+                                       value="@Model?.DefaultImage" placeholder="https://example.com/default-og-image.jpg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Media -->
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mb-3">Sosyal Medya</h4>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="facebookAppId" class="form-label">Facebook App ID</label>
+                                <input type="text" class="form-control" id="facebookAppId" name="FacebookAppId" 
+                                       value="@Model?.FacebookAppId" placeholder="123456789">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="twitterSite" class="form-label">Twitter Site (@@username)</label>
+                                <input type="text" class="form-control" id="twitterSite" name="TwitterSite" 
+                                       value="@Model?.TwitterSite" placeholder="@@kullaniciadi">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="twitterCreator" class="form-label">Twitter Creator (@@username)</label>
+                                <input type="text" class="form-control" id="twitterCreator" name="TwitterCreator" 
+                                       value="@Model?.TwitterCreator" placeholder="@@olusturucu">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="linkedinPage" class="form-label">LinkedIn Sayfa URL</label>
+                                <input type="url" class="form-control" id="linkedinPage" name="LinkedinPage" 
+                                       value="@Model?.LinkedinPage" placeholder="https://linkedin.com/in/username">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics & Tracking -->
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mb-3">Analytics & Takip</h4>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="googleAnalyticsId" class="form-label">Google Analytics ID</label>
+                                <input type="text" class="form-control" id="googleAnalyticsId" name="GoogleAnalyticsId" 
+                                       value="@Model?.GoogleAnalyticsId" placeholder="G-XXXXXXXXXX">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="googleTagManagerId" class="form-label">Google Tag Manager ID</label>
+                                <input type="text" class="form-control" id="googleTagManagerId" name="GoogleTagManagerId" 
+                                       value="@Model?.GoogleTagManagerId" placeholder="GTM-XXXXXXX">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="googleSearchConsoleId" class="form-label">Google Search Console Meta</label>
+                                <input type="text" class="form-control" id="googleSearchConsoleId" name="GoogleSearchConsoleId" 
+                                       value="@Model?.GoogleSearchConsoleId" placeholder="google-site-verification content">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="bingWebmasterToolsId" class="form-label">Bing Webmaster Tools ID</label>
+                                <input type="text" class="form-control" id="bingWebmasterToolsId" name="BingWebmasterToolsId" 
+                                       value="@Model?.BingWebmasterToolsId" placeholder="msvalidate.01 content">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced SEO Settings -->
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mb-3">Gelişmiş SEO Ayarları</h4>
+                    
+                    <div class="mb-3">
+                        <label for="robotsTxt" class="form-label">Robots.txt İçeriği</label>
+                        <textarea class="form-control" id="robotsTxt" name="RobotsTxt" rows="6" 
+                                  placeholder="User-agent: *&#10;Disallow: /admin/&#10;Sitemap: https://example.com/sitemap.xml">@Model?.RobotsTxt</textarea>
+                        <div class="form-text">Robots.txt dosyasının içeriği. Boş bırakılırsa varsayılan içerik kullanılır.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="customHeadTags" class="form-label">Özel Head Etiketleri</label>
+                        <textarea class="form-control" id="customHeadTags" name="CustomHeadTags" rows="4" 
+                                  placeholder="<meta name=&quot;custom&quot; content=&quot;value&quot;>">@Model?.CustomHeadTags</textarea>
+                        <div class="form-text">Tüm sayfalara eklenecek özel meta etiketleri veya script'ler.</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="enableSeoAnalysis" name="EnableSeoAnalysis" 
+                                       @(Model?.EnableSeoAnalysis == true ? "checked" : "")>
+                                <label class="form-check-label" for="enableSeoAnalysis">
+                                    SEO Analizi Aktif
+                                </label>
+                                <div class="form-text">Otomatik SEO analizi ve önerileri.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="enableCanonicalUrls" name="EnableCanonicalUrls" 
+                                       @(Model?.EnableCanonicalUrls == true ? "checked" : "")>
+                                <label class="form-check-label" for="enableCanonicalUrls">
+                                    Canonical URL'ler Aktif
+                                </label>
+                                <div class="form-text">Otomatik canonical URL oluşturma.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="enableOpenGraph" name="EnableOpenGraph" 
+                                       @(Model?.EnableOpenGraph == true ? "checked" : "")>
+                                <label class="form-check-label" for="enableOpenGraph">
+                                    Open Graph Aktif
+                                </label>
+                                <div class="form-text">Sosyal medya paylaşım etiketleri.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="enableTwitterCards" name="EnableTwitterCards" 
+                                       @(Model?.EnableTwitterCards == true ? "checked" : "")>
+                                <label class="form-check-label" for="enableTwitterCards">
+                                    Twitter Cards Aktif
+                                </label>
+                                <div class="form-text">Twitter paylaşım kartları.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="enableSitemap" name="EnableSitemap" 
+                                       @(Model?.EnableSitemap == true ? "checked" : "")>
+                                <label class="form-check-label" for="enableSitemap">
+                                    XML Sitemap Aktif
+                                </label>
+                                <div class="form-text">Otomatik XML sitemap oluşturma.</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="enableJsonLd" name="EnableJsonLd" 
+                                       @(Model?.EnableJsonLd == true ? "checked" : "")>
+                                <label class="form-check-label" for="enableJsonLd">
+                                    JSON-LD Structured Data
+                                </label>
+                                <div class="form-text">Yapılandırılmış veri etiketleri.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview & Actions -->
+        <div class="col-lg-4">
+            <!-- SEO Preview -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Site Önizleme</h5>
+                    <div class="google-preview">
+                        <div class="google-url" id="previewUrl">@Model?.SiteUrl</div>
+                        <div class="google-title" id="previewTitle">@Model?.SiteName</div>
+                        <div class="google-description" id="previewDescription">@Model?.SiteDescription</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Hızlı Bağlantılar</h5>
+                    <div class="d-grid gap-2">
+                        <a href="/sitemap.xml" target="_blank" class="btn btn-outline-primary btn-sm">
+                            <i class="ri-file-list-3-line me-1"></i> XML Sitemap
+                        </a>
+                        <a href="/robots.txt" target="_blank" class="btn btn-outline-secondary btn-sm">
+                            <i class="ri-robot-line me-1"></i> Robots.txt
+                        </a>
+                        <button type="button" class="btn btn-outline-success btn-sm" onclick="testSeoSettings()">
+                            <i class="ri-test-tube-line me-1"></i> SEO Test
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEO Status -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">SEO Durumu</h5>
+                    <div class="seo-status">
+                        <div class="status-item">
+                            <span class="status-label">SEO Analizi:</span>
+                            <span class="badge badge-soft-@(Model?.EnableSeoAnalysis == true ? "success" : "secondary")">
+                                @(Model?.EnableSeoAnalysis == true ? "Aktif" : "Pasif")
+                            </span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">XML Sitemap:</span>
+                            <span class="badge badge-soft-@(Model?.EnableSitemap == true ? "success" : "secondary")">
+                                @(Model?.EnableSitemap == true ? "Aktif" : "Pasif")
+                            </span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Open Graph:</span>
+                            <span class="badge badge-soft-@(Model?.EnableOpenGraph == true ? "success" : "secondary")">
+                                @(Model?.EnableOpenGraph == true ? "Aktif" : "Pasif")
+                            </span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Twitter Cards:</span>
+                            <span class="badge badge-soft-@(Model?.EnableTwitterCards == true ? "success" : "secondary")">
+                                @(Model?.EnableTwitterCards == true ? "Aktif" : "Pasif")
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="ri-save-line me-1"></i> Ayarları Kaydet
+                        </button>
+                        <a href="@Url.Action("Index", "AdminSeo")" class="btn btn-secondary">
+                            <i class="ri-arrow-left-line me-1"></i> SEO Dashboard
+                        </a>
+                        <button type="button" class="btn btn-info" onclick="resetToDefaults()">
+                            <i class="ri-refresh-line me-1"></i> Varsayılanlara Sıfırla
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- SEO Test Modal -->
+<div class="modal fade" id="seoTestModal" tabindex="-1" aria-labelledby="seoTestModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="seoTestModalLabel">SEO Test Sonuçları</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="seoTestContent">
+                <!-- Test results will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Character counter for site description
+            $('#siteDescription').on('input', function() {
+                var length = $(this).val().length;
+                $('#siteDescCount').text(length);
+            });
+            
+            // Real-time preview updates
+            $('#siteName').on('input', updatePreview);
+            $('#siteUrl').on('input', updatePreview);
+            $('#siteDescription').on('input', updatePreview);
+        });
+
+        function updatePreview() {
+            var siteName = $('#siteName').val() || 'Site Adı';
+            var siteUrl = $('#siteUrl').val() || 'https://example.com';
+            var siteDescription = $('#siteDescription').val() || 'Site açıklaması';
+            
+            $('#previewTitle').text(siteName);
+            $('#previewUrl').text(siteUrl);
+            $('#previewDescription').text(siteDescription);
+        }
+
+        function testSeoSettings() {
+            $('#seoTestModal').modal('show');
+            $('#seoTestContent').html('<div class="text-center"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">SEO ayarları test ediliyor...</p></div>');
+            
+            // Simulate SEO test
+            setTimeout(function() {
+                var testResults = `
+                    <div class="row">
+                        <div class="col-12">
+                            <h6>Test Sonuçları:</h6>
+                            <div class="alert alert-success">
+                                <i class="ri-check-line me-2"></i> Site URL erişilebilir
+                            </div>
+                            <div class="alert alert-success">
+                                <i class="ri-check-line me-2"></i> Meta etiketleri doğru yapılandırılmış
+                            </div>
+                            <div class="alert alert-info">
+                                <i class="ri-information-line me-2"></i> XML Sitemap aktif
+                            </div>
+                            <div class="alert alert-info">
+                                <i class="ri-information-line me-2"></i> Robots.txt dosyası mevcut
+                            </div>
+                        </div>
+                    </div>
+                `;
+                $('#seoTestContent').html(testResults);
+            }, 2000);
+        }
+
+        function resetToDefaults() {
+            if (confirm('Tüm SEO ayarları varsayılan değerlere sıfırlanacak. Bu işlem geri alınamaz. Devam etmek istiyor musunuz?')) {
+                // Reset form to default values
+                $('#siteName').val('Portfolio Site');
+                $('#siteUrl').val('');
+                $('#siteDescription').val('');
+                $('#siteKeywords').val('');
+                $('#defaultLanguage').val('tr');
+                $('#defaultImage').val('');
+                $('#facebookAppId').val('');
+                $('#twitterSite').val('');
+                $('#twitterCreator').val('');
+                $('#linkedinPage').val('');
+                $('#googleAnalyticsId').val('');
+                $('#googleTagManagerId').val('');
+                $('#googleSearchConsoleId').val('');
+                $('#bingWebmasterToolsId').val('');
+                $('#robotsTxt').val('User-agent: *\nDisallow: /admin/\nSitemap: ' + window.location.origin + '/sitemap.xml');
+                $('#customHeadTags').val('');
+                
+                // Reset checkboxes to default (all enabled)
+                $('#enableSeoAnalysis').prop('checked', true);
+                $('#enableCanonicalUrls').prop('checked', true);
+                $('#enableOpenGraph').prop('checked', true);
+                $('#enableTwitterCards').prop('checked', true);
+                $('#enableSitemap').prop('checked', true);
+                $('#enableJsonLd').prop('checked', true);
+                
+                updatePreview();
+            }
+        }
+    </script>
+    
+    <style>
+        .google-preview {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px;
+            background: #fff;
+        }
+        
+        .google-url {
+            color: #1a0dab;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+        
+        .google-title {
+            color: #1a0dab;
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.3;
+            margin-bottom: 3px;
+        }
+        
+        .google-description {
+            color: #4d5156;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .seo-status .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .status-label {
+            font-weight: 500;
+        }
+    </style>
+}

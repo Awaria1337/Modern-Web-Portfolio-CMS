@@ -1,0 +1,551 @@
+@model IEnumerable<Portfolio.Models.SeoAnalytics>
+@{
+    ViewData["Title"] = "SEO Analytics";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!-- Start Content-->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Admin")">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "AdminSeo")">SEO Dashboard</a></li>
+                    <li class="breadcrumb-item active">SEO Analytics</li>
+                </ol>
+            </div>
+            <h4 class="page-title">SEO Analytics</h4>
+        </div>
+    </div>
+</div>
+
+<!-- Analytics Summary Cards -->
+<div class="row">
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-6">
+                        <h5 class="text-muted fw-normal mt-0 text-truncate" title="Total Pages">Toplam Sayfa</h5>
+                        <h3 class="my-2 py-1" id="totalPages">-</h3>
+                        <p class="mb-0 text-muted">
+                            <span class="text-success me-2"><i class="ri-arrow-up-line"></i> 12%</span>
+                            <span class="text-nowrap">Son aydan beri</span>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-end">
+                            <div id="total-pages-chart" data-colors="#727cf5"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-6">
+                        <h5 class="text-muted fw-normal mt-0 text-truncate" title="Average SEO Score">Ortalama SEO Skoru</h5>
+                        <h3 class="my-2 py-1" id="avgSeoScore">-</h3>
+                        <p class="mb-0 text-muted">
+                            <span class="text-success me-2"><i class="ri-arrow-up-line"></i> 8%</span>
+                            <span class="text-nowrap">Son aydan beri</span>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-end">
+                            <div id="avg-score-chart" data-colors="#0acf97"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-6">
+                        <h5 class="text-muted fw-normal mt-0 text-truncate" title="Issues Found">Bulunan Sorunlar</h5>
+                        <h3 class="my-2 py-1" id="totalIssues">-</h3>
+                        <p class="mb-0 text-muted">
+                            <span class="text-danger me-2"><i class="ri-arrow-down-line"></i> 5%</span>
+                            <span class="text-nowrap">Son aydan beri</span>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-end">
+                            <div id="issues-chart" data-colors="#fa5c7c"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-6">
+                        <h5 class="text-muted fw-normal mt-0 text-truncate" title="Last Analysis">Son Analiz</h5>
+                        <h3 class="my-2 py-1" id="lastAnalysis">-</h3>
+                        <p class="mb-0 text-muted">
+                            <span class="text-info me-2"><i class="ri-time-line"></i></span>
+                            <span class="text-nowrap" id="lastAnalysisTime">-</span>
+                        </p>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-end">
+                            <div id="analysis-chart" data-colors="#ffbc00"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- SEO Score Trend Chart -->
+    <div class="col-xl-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="dropdown float-end">
+                    <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="ri-more-2-fill"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a href="javascript:void(0);" class="dropdown-item" onclick="refreshChart()">Yenile</a>
+                        <a href="javascript:void(0);" class="dropdown-item" onclick="exportChart()">Dışa Aktar</a>
+                    </div>
+                </div>
+                <h4 class="header-title mb-3">SEO Skor Trendi</h4>
+                <div dir="ltr">
+                    <div id="seo-trend-chart" class="apex-charts" data-colors="#727cf5,#0acf97,#fa5c7c"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Issues -->
+    <div class="col-xl-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="header-title mb-3">En Sık Karşılaşılan Sorunlar</h4>
+                <div class="table-responsive">
+                    <table class="table table-sm table-centered mb-0">
+                        <thead>
+                            <tr>
+                                <th>Sorun</th>
+                                <th>Sayı</th>
+                                <th>Durum</th>
+                            </tr>
+                        </thead>
+                        <tbody id="topIssuesTable">
+                            <tr>
+                                <td>Meta açıklama eksik</td>
+                                <td>12</td>
+                                <td><span class="badge badge-soft-danger">Yüksek</span></td>
+                            </tr>
+                            <tr>
+                                <td>Başlık çok uzun</td>
+                                <td>8</td>
+                                <td><span class="badge badge-soft-warning">Orta</span></td>
+                            </tr>
+                            <tr>
+                                <td>Alt etiket eksik</td>
+                                <td>5</td>
+                                <td><span class="badge badge-soft-info">Düşük</span></td>
+                            </tr>
+                            <tr>
+                                <td>Anahtar kelime yoğunluğu</td>
+                                <td>3</td>
+                                <td><span class="badge badge-soft-info">Düşük</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Detailed Analytics Table -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-sm-5">
+                        <h4 class="header-title">Detaylı SEO Analytics</h4>
+                        <p class="text-muted font-13 mb-4">
+                            Tüm sayfaların SEO performans detayları
+                        </p>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="text-sm-end">
+                            <button type="button" class="btn btn-success mb-2 me-1" onclick="runFullAnalysis()">
+                                <i class="ri-refresh-line me-1"></i> Tam Analiz Çalıştır
+                            </button>
+                            <button type="button" class="btn btn-light mb-2" onclick="exportAnalytics()">
+                                <i class="ri-download-line me-1"></i> Dışa Aktar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="analyticsTable" class="table table-centered w-100 dt-responsive nowrap">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Sayfa</th>
+                                <th>Tür</th>
+                                <th>SEO Skoru</th>
+                                <th>Başlık Uzunluğu</th>
+                                <th>Açıklama Uzunluğu</th>
+                                <th>Kelime Sayısı</th>
+                                <th>Sorunlar</th>
+                                <th>Son Analiz</th>
+                                <th>İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Data will be loaded via AJAX -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Analysis Details Modal -->
+<div class="modal fade" id="analysisModal" tabindex="-1" aria-labelledby="analysisModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="analysisModalLabel">SEO Analiz Detayları</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="analysisModalContent">
+                <!-- Analysis details will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary" onclick="reAnalyze()">Yeniden Analiz Et</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <!-- Datatables js -->
+    <script src="~/assets/vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/assets/vendor/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+
+    <!-- Apex Charts js -->
+    <script src="~/assets/vendor/apexcharts/apexcharts.min.js"></script>
+
+    <script>
+        var analyticsTable;
+        var currentAnalysisId = null;
+
+        $(document).ready(function() {
+            initializeAnalytics();
+            loadAnalyticsData();
+            initializeCharts();
+        });
+
+        function initializeAnalytics() {
+            // Initialize DataTable
+            analyticsTable = $('#analyticsTable').DataTable({
+                responsive: true,
+                processing: true,
+                serverSide: false,
+                ajax: {
+                    url: '@Url.Action("GetAnalyticsData", "AdminSeo")',
+                    type: 'GET',
+                    dataSrc: ''
+                },
+                columns: [
+                    { 
+                        data: 'title',
+                        render: function(data, type, row) {
+                            return '<div class="fw-semibold">' + data + '</div><small class="text-muted">' + row.url + '</small>';
+                        }
+                    },
+                    { 
+                        data: 'contentType',
+                        render: function(data, type, row) {
+                            var badgeClass = data === 'blog' ? 'badge-soft-primary' : 'badge-soft-info';
+                            return '<span class="badge ' + badgeClass + '">' + (data === 'blog' ? 'Blog' : 'Proje') + '</span>';
+                        }
+                    },
+                    { 
+                        data: 'seoScore',
+                        render: function(data, type, row) {
+                            var color = getSeoScoreColor(data);
+                            return '<div class="text-center"><span class="badge badge-soft-' + color + '">' + data + '</span></div>';
+                        }
+                    },
+                    { 
+                        data: 'titleLength',
+                        render: function(data, type, row) {
+                            var color = data > 60 ? 'danger' : (data < 30 ? 'warning' : 'success');
+                            return '<span class="text-' + color + '">' + data + '</span>';
+                        }
+                    },
+                    { 
+                        data: 'descriptionLength',
+                        render: function(data, type, row) {
+                            var color = data > 160 ? 'danger' : (data < 120 ? 'warning' : 'success');
+                            return '<span class="text-' + color + '">' + data + '</span>';
+                        }
+                    },
+                    { data: 'wordCount' },
+                    { 
+                        data: 'issuesCount',
+                        render: function(data, type, row) {
+                            if (data > 0) {
+                                return '<span class="badge badge-soft-danger">' + data + ' sorun</span>';
+                            }
+                            return '<span class="badge badge-soft-success">Sorun yok</span>';
+                        }
+                    },
+                    { 
+                        data: 'lastAnalyzed',
+                        render: function(data, type, row) {
+                            return data ? new Date(data).toLocaleDateString('tr-TR') : 'Hiç';
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function(data, type, row) {
+                            return `
+                                <div class="btn-group btn-group-sm">
+                                    <button class="btn btn-outline-primary" onclick="viewAnalysis(${row.id})" title="Detayları Görüntüle">
+                                        <i class="ri-eye-line"></i>
+                                    </button>
+                                    <button class="btn btn-outline-success" onclick="analyzeContent(${row.id}, '${row.contentType}')" title="Yeniden Analiz Et">
+                                        <i class="ri-refresh-line"></i>
+                                    </button>
+                                </div>
+                            `;
+                        }
+                    }
+                ],
+                order: [[7, 'desc']],
+                pageLength: 25,
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/tr.json'
+                }
+            });
+        }
+
+        function loadAnalyticsData() {
+            // Load summary statistics
+            $.get('@Url.Action("GetAnalyticsSummary", "AdminSeo")', function(data) {
+                $('#totalPages').text(data.totalPages || 0);
+                $('#avgSeoScore').text(data.avgSeoScore || 0);
+                $('#totalIssues').text(data.totalIssues || 0);
+                $('#lastAnalysis').text(data.lastAnalysisDate || 'Hiç');
+                $('#lastAnalysisTime').text(data.lastAnalysisTime || '-');
+            });
+        }
+
+        function initializeCharts() {
+            // SEO Trend Chart
+            var trendOptions = {
+                series: [{
+                    name: 'Ortalama SEO Skoru',
+                    data: [65, 68, 72, 75, 78, 82, 85, 88, 90, 92, 89, 91]
+                }, {
+                    name: 'Blog SEO',
+                    data: [70, 72, 75, 78, 80, 85, 87, 90, 92, 94, 91, 93]
+                }, {
+                    name: 'Proje SEO',
+                    data: [60, 64, 69, 72, 76, 79, 83, 86, 88, 90, 87, 89]
+                }],
+                chart: {
+                    type: 'line',
+                    height: 350,
+                    toolbar: {
+                        show: true
+                    }
+                },
+                colors: ['#727cf5', '#0acf97', '#fa5c7c'],
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 3
+                },
+                xaxis: {
+                    categories: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara']
+                },
+                yaxis: {
+                    min: 0,
+                    max: 100
+                },
+                tooltip: {
+                    y: {
+                        formatter: function (val) {
+                            return val + " puan"
+                        }
+                    }
+                }
+            };
+
+            var trendChart = new ApexCharts(document.querySelector("#seo-trend-chart"), trendOptions);
+            trendChart.render();
+
+            // Mini charts for cards
+            initMiniCharts();
+        }
+
+        function initMiniCharts() {
+            // Total Pages Mini Chart
+            var totalPagesOptions = {
+                series: [44, 55, 41, 17, 15],
+                chart: {
+                    type: 'donut',
+                    height: 60,
+                    sparkline: {
+                        enabled: true
+                    }
+                },
+                colors: ['#727cf5'],
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            size: '70%'
+                        }
+                    }
+                }
+            };
+            new ApexCharts(document.querySelector("#total-pages-chart"), totalPagesOptions).render();
+
+            // Similar mini charts for other cards...
+        }
+
+        function viewAnalysis(id) {
+            currentAnalysisId = id;
+            $('#analysisModal').modal('show');
+            $('#analysisModalContent').html('<div class="text-center"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Analiz detayları yükleniyor...</p></div>');
+            
+            $.get('@Url.Action("GetAnalysisDetails", "AdminSeo")', { id: id }, function(data) {
+                var content = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>SEO Skoru</h6>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-${getSeoScoreColor(data.seoScore)}" style="width: ${data.seoScore}%">${data.seoScore}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Son Analiz</h6>
+                            <p>${data.lastAnalyzed ? new Date(data.lastAnalyzed).toLocaleString('tr-TR') : 'Hiç'}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-12">
+                            <h6>Bulunan Sorunlar</h6>
+                            <div class="issues-list">
+                                ${data.issues && data.issues.length > 0 ? 
+                                    data.issues.map(issue => `<div class="alert alert-warning">${issue}</div>`).join('') :
+                                    '<div class="alert alert-success">Herhangi bir sorun bulunamadı!</div>'
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-12">
+                            <h6>Öneriler</h6>
+                            <div class="recommendations-list">
+                                ${data.recommendations && data.recommendations.length > 0 ? 
+                                    data.recommendations.map(rec => `<div class="alert alert-info">${rec}</div>`).join('') :
+                                    '<div class="alert alert-success">Tüm SEO kriterleri karşılanıyor!</div>'
+                                }
+                            </div>
+                        </div>
+                    </div>
+                `;
+                $('#analysisModalContent').html(content);
+            });
+        }
+
+        function analyzeContent(id, contentType) {
+            $.post('@Url.Action("AnalyzeSeo", "AdminSeo")', { 
+                contentId: id, 
+                contentType: contentType 
+            }, function(data) {
+                if (data.success) {
+                    toastr.success('SEO analizi tamamlandı!');
+                    analyticsTable.ajax.reload();
+                    loadAnalyticsData();
+                } else {
+                    toastr.error('Analiz sırasında bir hata oluştu: ' + data.message);
+                }
+            });
+        }
+
+        function runFullAnalysis() {
+            if (confirm('Tüm sayfalar için SEO analizi çalıştırılacak. Bu işlem biraz zaman alabilir. Devam etmek istiyor musunuz?')) {
+                var btn = event.target;
+                var originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="spinner-border spinner-border-sm me-1"></i> Analiz Ediliyor...';
+                btn.disabled = true;
+                
+                $.post('@Url.Action("RunFullAnalysis", "AdminSeo")', function(data) {
+                    if (data.success) {
+                        toastr.success('Tam SEO analizi tamamlandı!');
+                        analyticsTable.ajax.reload();
+                        loadAnalyticsData();
+                    } else {
+                        toastr.error('Analiz sırasında bir hata oluştu: ' + data.message);
+                    }
+                }).always(function() {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+            }
+        }
+
+        function reAnalyze() {
+            if (currentAnalysisId) {
+                analyzeContent(currentAnalysisId, 'blog'); // Default to blog, should be dynamic
+                $('#analysisModal').modal('hide');
+            }
+        }
+
+        function exportAnalytics() {
+            window.location.href = '@Url.Action("ExportAnalytics", "AdminSeo")';
+        }
+
+        function refreshChart() {
+            loadAnalyticsData();
+            toastr.info('Grafik verileri yenilendi.');
+        }
+
+        function exportChart() {
+            toastr.info('Grafik dışa aktarma özelliği yakında eklenecek.');
+        }
+
+        function getSeoScoreColor(score) {
+            if (score >= 80) return 'success';
+            if (score >= 60) return 'warning';
+            return 'danger';
+        }
+    </script>
+}

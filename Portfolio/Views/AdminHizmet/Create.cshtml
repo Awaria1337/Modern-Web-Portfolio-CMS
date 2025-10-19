@@ -1,0 +1,54 @@
+@model Portfolio.Models.Hizmet
+@{
+    ViewData["Title"] = "Yeni Hizmet Ekle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <h1><i class="fas fa-plus"></i> @ViewData["Title"]</h1>
+    <a href="@Url.Action("Index")" class="btn btn-primary">
+        <i class="fas fa-arrow-left"></i> Geri Dön
+    </a>
+</div>
+
+<div class="content-card">
+    <form asp-action="Create" method="post">
+        <div class="form-group">
+            <label asp-for="Baslik">Hizmet Başlığı</label>
+            <input asp-for="Baslik" class="form-control" placeholder="Örn: Web Design" />
+            <span asp-validation-for="Baslik" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Aciklama">Açıklama</label>
+            <textarea asp-for="Aciklama" class="form-control" rows="4" placeholder="Hizmet açıklamasını girin..."></textarea>
+            <span asp-validation-for="Aciklama" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Icon">Icon Yolu</label>
+            <input asp-for="Icon" class="form-control" placeholder="/assets/images/icon-design.svg" />
+            <span asp-validation-for="Icon" class="text-danger"></span>
+            <small class="text-muted">Örnek: /assets/images/icon-design.svg</small>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Sira">Sıra</label>
+            <input asp-for="Sira" class="form-control" type="number" value="1" />
+            <span asp-validation-for="Sira" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>
+                <input asp-for="Aktif" type="checkbox" checked /> Aktif
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-save"></i> Kaydet
+        </button>
+        <a href="@Url.Action("Index")" class="btn btn-secondary">
+            <i class="fas fa-times"></i> İptal
+        </a>
+    </form>
+</div>

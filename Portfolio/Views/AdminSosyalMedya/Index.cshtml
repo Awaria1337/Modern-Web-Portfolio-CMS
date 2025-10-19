@@ -1,0 +1,72 @@
+@model List<Portfolio.Models.SosyalMedya>
+@{
+    ViewData["Title"] = "Sosyal Medya Yönetimi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="admin-content">
+    <div class="content-header">
+        <h2><i class="fas fa-share-alt"></i> Sosyal Medya Linkleri</h2>
+        <a href="@Url.Action("Create")" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Yeni Ekle
+        </a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <div class="table-responsive">
+        <table class="table admin-table">
+            <thead>
+                <tr>
+                    <th>Sıra</th>
+                    <th>Platform</th>
+                    <th>URL</th>
+                    <th>İkon</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr data-id="@item.Id">
+                        <td>@item.Sira</td>
+                        <td>@item.Platform</td>
+                        <td><a href="@item.Url" target="_blank">@item.Url</a></td>
+                        <td><i class="@item.Icon"></i> @item.Icon</td>
+                        <td>
+                            <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-sm btn-warning">
+                                <i class="ri-edit-line"></i> Düzenle
+                            </a>
+                            <button onclick="deleteItem(@item.Id)" class="btn btn-sm btn-danger" type="button">
+                                <i class="ri-delete-bin-line"></i> Sil
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+function deleteItem(id) {
+    if (confirm('Bu sosyal medya linki silinecek. Emin misiniz?')) {
+        fetch('@Url.Action("Delete")', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(id)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                document.querySelector(`tr[data-id="${id}"]`).remove();
+            } else {
+                alert('Silme işlemi başarısız!');
+            }
+        });
+    }
+}
+</script>

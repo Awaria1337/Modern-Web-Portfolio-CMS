@@ -1,0 +1,100 @@
+@@include('./partials/html.html')
+
+<head>
+    @@include("./partials/title-meta.html", {"title": "Close button"})
+
+    <!-- Plugin css -->
+    <link rel="stylesheet" href="assets/vendor/jquery-toast-plugin/jquery.toast.min.css">
+
+    @@include('./partials/head-css.html')
+</head>
+
+<body>
+    <!-- Begin page -->
+    <div class="wrapper">
+
+        @@include('./partials/menu.html', {"title":"Close button"})
+
+        <!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+                    <div class="row">
+                              
+                        <div class="col-xl-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title"> Default Close Button</h4>
+                                    <p class="text-muted mb-0">Provide an option to dismiss or close a component with .btn-close. Default styling is limited, but highly customizable. Modify the Sass variables to replace the default background-image. Be sure to include text for screen readers, as we’ve done with aria-label.</p>
+                                </div>
+                                <div class="card-body">
+                                    <button type="button" class="btn-close" aria-label="Close"></button>
+                                </div> <!-- end card-body -->
+                            </div> <!-- end card-->
+                        </div> <!-- end col -->
+
+                        <div class="col-xl-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title"> Disabled state</h4>
+                                    <p class="text-muted mb-0">Disabled close buttons change their opacity. We’ve also applied pointer-events: none and user-select: none to preventing hover and active states from triggering.</p>
+                                </div>
+                                <div class="card-body">
+                                    <button type="button" class="btn-close" disabled aria-label="Close"></button>
+                                </div> <!-- end card-body -->
+                            </div> <!-- end card-->
+                        </div> <!-- end col -->
+
+                        
+                        <div class="col-xl-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title"> Dark variant</h4>
+                                    <p class="text-muted mb-0">Add data-bs-theme="dark" to the .btn-close, or to its parent element, to invert the close button. This uses the filter property to invert the background-image without overriding its value.</p>
+                                </div>
+                                <div class="card-body">
+                                    <div data-bs-theme="bg-dark">
+                                        <button type="button" class="btn-close" aria-label="Close"></button>
+                                        <button type="button" class="btn-close" disabled aria-label="Close"></button>
+                                      </div>
+                                </div> <!-- end card-body -->
+                            </div> <!-- end card-->
+                        </div> <!-- end col -->
+                    </div>
+                    <!-- end row -->
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+            @@include('./partials/footer.html')
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+
+    </div>
+    <!-- END wrapper -->
+
+    @@include('./partials/right-sidebar.html')
+
+    @@include('./partials/footer-scripts.html')
+
+    <script src="assets/vendor/jquery-toast-plugin/jquery.toast.min.js"></script>
+
+    <!-- Toastr Demo js -->
+    <script src="assets/js/pages/toastr.init.js"></script>
+
+    <!-- App js -->
+    <script src="assets/js/app.min.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,81 @@
+@model Portfolio.Models.SosyalMedya
+@{
+    ViewData["Title"] = "Sosyal Medya Düzenle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="admin-content">
+    <div class="content-header">
+        <h2><i class="fas fa-edit"></i> Sosyal Medya Düzenle</h2>
+        <a href="@Url.Action("Index")" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Geri
+        </a>
+    </div>
+
+    <form asp-action="Edit" method="post" class="admin-form">
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        
+        <div class="form-group">
+            <label asp-for="Platform">Platform</label>
+            <select asp-for="Platform" class="form-control" id="platformSelect">
+                <option value="">Platform seçin...</option>
+                <option value="LinkedIn">LinkedIn</option>
+                <option value="Instagram">Instagram</option>
+                <option value="GitHub">GitHub</option>
+            </select>
+            <span asp-validation-for="Platform" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Url">URL</label>
+            <input asp-for="Url" class="form-control" />
+            <span asp-validation-for="Url" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Icon">İkon Class</label>
+            <input asp-for="Icon" class="form-control" readonly />
+            <span asp-validation-for="Icon" class="text-danger"></span>
+            <small class="form-text text-muted">İkon otomatik olarak seçilecek</small>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Sira">Sıra</label>
+            <input asp-for="Sira" type="number" class="form-control" />
+            <span asp-validation-for="Sira" class="text-danger"></span>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-save"></i> Kaydet
+            </button>
+            <a href="@Url.Action("Index")" class="btn btn-secondary">İptal</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        document.getElementById('platformSelect').addEventListener('change', function() {
+            var platform = this.value;
+            var iconInput = document.querySelector('input[name="Icon"]');
+            
+            switch(platform) {
+                case 'LinkedIn':
+                    iconInput.value = 'logo-linkedin';
+                    break;
+                case 'Instagram':
+                    iconInput.value = 'logo-instagram';
+                    break;
+                case 'GitHub':
+                    iconInput.value = 'logo-github';
+                    break;
+                default:
+                    iconInput.value = '';
+                    break;
+            }
+        });
+    </script>
+}

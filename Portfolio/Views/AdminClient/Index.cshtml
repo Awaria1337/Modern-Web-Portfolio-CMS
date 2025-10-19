@@ -1,0 +1,106 @@
+@model List<Portfolio.Models.Client>
+@{
+    ViewData["Title"] = "Client Yönetimi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box">
+            <div class="page-title-right">
+                <a href="@Url.Action("Create")" class="btn btn-primary">
+                    <i class="ri-add-line me-1"></i> Yeni Ekle
+                </a>
+            </div>
+            <h4 class="page-title"><i class="ri-building-line me-1"></i> Client Logoları</h4>
+        </div>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="ri-checkbox-circle-line me-2"></i> @TempData["Success"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Sıra</th>
+                                <th>Logo</th>
+                                <th>İsim</th>
+                                <th style="width: 200px;">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr data-id="@item.Id">
+                                    <td>@item.Sira</td>
+                                    <td><img src="@item.Logo" alt="@item.Ad" style="max-height: 40px;"></td>
+                                    <td>@item.Ad</td>
+                                    <td>
+                                        <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-sm btn-warning">
+                                            <i class="ri-edit-line"></i> Düzenle
+                                        </a>
+                                        <button onclick="deleteItem(@item.Id)" class="btn btn-sm btn-danger" type="button">
+                                            <i class="ri-delete-bin-line"></i> Sil
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+function deleteItem(id) {
+    if (confirm('Bu client silinecek. Emin misiniz?')) {
+        fetch('@Url.Action("Delete", "AdminClient")', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+            },
+            body: JSON.stringify(id)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                const row = document.querySelector(`tr[data-id="${id}"]`);
+                row.style.opacity = '0';
+                setTimeout(() => row.remove(), 300);
+                
+                const alert = document.createElement('div');
+                alert.className = 'alert alert-success alert-dismissible fade show';
+                alert.innerHTML = '<i class="ri-checkbox-circle-line me-2"></i> Başarıyla silindi! <button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
+                document.querySelector('.col-12').insertAdjacentElement('afterbegin', alert);
+                setTimeout(() => alert.remove(), 3000);
+            } else {
+                alert('Silme işlemi başarısız!');
+            }
+        })
+        .catch(err => {
+            console.error('Hata:', err);
+            alert('Bir hata oluştu!');
+        });
+    }
+}
+</script>
+}

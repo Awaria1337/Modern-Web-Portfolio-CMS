@@ -1,0 +1,77 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace Portfolio.Models
+{
+    public class ProjectSeo
+    {
+        public int Id { get; set; }
+        
+        [Required]
+        public int ProjectId { get; set; }
+        
+        [StringLength(60)]
+        public string? MetaTitle { get; set; }
+        
+        [StringLength(160)]
+        public string? MetaDescription { get; set; }
+        
+        [StringLength(255)]
+        public string? MetaKeywords { get; set; }
+        
+        [StringLength(100)]
+        public string? Slug { get; set; }
+        
+        [StringLength(255)]
+        public string? CanonicalUrl { get; set; }
+        
+        [StringLength(20)]
+        public string? MetaRobots { get; set; } = "index,follow";
+        
+        // Open Graph
+        [StringLength(100)]
+        public string? OgTitle { get; set; }
+        
+        [StringLength(200)]
+        public string? OgDescription { get; set; }
+        
+        [StringLength(255)]
+        public string? OgImage { get; set; }
+        
+        [StringLength(20)]
+        public string? OgType { get; set; } = "website";
+        
+        // Twitter Card
+        [StringLength(100)]
+        public string? TwitterTitle { get; set; }
+        
+        [StringLength(200)]
+        public string? TwitterDescription { get; set; }
+        
+        [StringLength(255)]
+        public string? TwitterImage { get; set; }
+        
+        [StringLength(20)]
+        public string? TwitterCard { get; set; } = "summary_large_image";
+        
+        // Schema.org
+        public string? SchemaMarkup { get; set; }
+        
+        // SEO Analysis
+        public int SeoScore { get; set; } = 0;
+        public DateTime? LastAnalyzed { get; set; }
+        public string? SeoIssues { get; set; }
+        
+        // SEO Settings
+        public bool NoIndex { get; set; } = false;
+        public bool NoFollow { get; set; } = false;
+        
+        [StringLength(100)]
+        public string? FocusKeyword { get; set; }
+        
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
+        
+        // Navigation Property
+        public virtual Proje? Proje { get; set; }
+    }
+}

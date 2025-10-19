@@ -1,0 +1,72 @@
+@model List<Portfolio.Models.Deneyim>
+@{
+    ViewData["Title"] = "Deneyim Yönetimi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="admin-content">
+    <div class="content-header">
+        <h2><i class="fas fa-briefcase"></i> İş Deneyimleri</h2>
+        <a href="@Url.Action("Create")" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Yeni Ekle
+        </a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <div class="table-responsive">
+        <table class="table admin-table">
+            <thead>
+                <tr>
+                    <th>Sıra</th>
+                    <th>Başlık</th>
+                    <th>Şirket</th>
+                    <th>Tarih</th>
+                    <th>İşlemler</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr data-id="@item.Id">
+                        <td>@item.Sira</td>
+                        <td>@item.Pozisyon</td>
+                        <td>@item.Sirket</td>
+                        <td>@item.BaslangicTarihi - @item.BitisTarihi</td>
+                        <td>
+                            <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-sm btn-warning">
+                                <i class="ri-edit-line"></i> Düzenle
+                            </a>
+                            <button onclick="deleteItem(@item.Id)" class="btn btn-sm btn-danger" type="button">
+                                <i class="ri-delete-bin-line"></i> Sil
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+function deleteItem(id) {
+    if (confirm('Bu deneyim silinecek. Emin misiniz?')) {
+        fetch('@Url.Action("Delete")', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(id)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                document.querySelector(`tr[data-id="${id}"]`).remove();
+            } else {
+                alert('Silme işlemi başarısız!');
+            }
+        });
+    }
+}
+</script>
