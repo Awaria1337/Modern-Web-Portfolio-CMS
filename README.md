@@ -2,7 +2,7 @@
 
 [![.NET](https://img.shields.io/badge/.NET-9.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
 [![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-MVC-512BD4)](https://docs.microsoft.com/aspnet/core/)
-[![Entity Framework](https://img.shields.io/badge/Entity%20Framework-Core%206.0-512BD4)](https://docs.microsoft.com/ef/core/)
+[![Entity Framework](https://img.shields.io/badge/Entity%20Framework-Core%209.0-512BD4)](https://docs.microsoft.com/ef/core/)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5-7952B3?logo=bootstrap)](https://getbootstrap.com/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
