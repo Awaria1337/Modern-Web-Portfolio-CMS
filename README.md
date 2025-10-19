@@ -55,8 +55,8 @@
 
 ### 🎨 Öne Çıkan Teknolojiler
 
-- **Backend**: ASP.NET Core 6.0 MVC
-- **ORM**: Entity Framework Core 6.0
+- **Backend**: .NET Core 9.0 MVC
+- **ORM**: Entity Framework Core 9.0
 - **Database**: SQL Server
 - **Frontend**: Razor Pages + Bootstrap 5
 - **Admin Theme**: Techmin v1.0
@@ -69,7 +69,7 @@
 ### Backend Stack
 
 \\\
-- .NET 6.0
+- .NET 9.0
 - ASP.NET Core MVC
 - Entity Framework Core 6.0.36
 - C# 10
@@ -99,7 +99,7 @@
 
 ### Ön Gereksinimler
 
-- [.NET 6.0 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
+- [.NET 9.0 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
 - [SQL Server](https://www.microsoft.com/sql-server/sql-server-downloads) (Express veya üzeri)
 - [Visual Studio 2022](https://visualstudio.microsoft.com/) veya [VS Code](https://code.visualstudio.com/)
 
